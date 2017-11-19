@@ -135,16 +135,13 @@ Y = r15:r14
 
 **Flags - Sreg**
 
-|7|6|5|4|3|2|1|0|
-|---------------|
-|-|T|-|S|V|N|Z|C|
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+| - | - | - | - | - | - | - | - |
+| - | T | - | S | V | N | Z | C |
 
 
-[I] Interupt (not used)
 
 [T] Transfer flag
-
-[H] Half Carry (not used)
 
 [S] Sign flag
 
