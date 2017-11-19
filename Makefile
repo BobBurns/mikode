@@ -7,7 +7,7 @@ RLIBS = ncurses
 TDIR = ../tefork/tinyexpr/
 
 # handle MacOSx this way Im not sure why
-machine := $(shell uname -m)
+machine := $(shell uname -s)
 ifeq ($(machine),Darwin)
 	CFLAGS += -fno-stack-protector
 endif
