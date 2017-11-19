@@ -6,6 +6,12 @@ LIBS = m
 RLIBS = ncurses
 TDIR = ../tefork/tinyexpr/
 
+# handle MacOSx this way Im not sure why
+machine := $(shell uname -m)
+ifeq ($(machine),Darwin)
+	CFLAGS += -fno-stack-protector
+endif
+
 all: mikode mikorun
 
 mikode: parse.o operand.o token.o misc.o write.o main.o $(TDIR)tinyexpr_bitw.o expression.o directive.o
