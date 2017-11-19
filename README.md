@@ -19,12 +19,13 @@ Note that this repository is a work in progress :]
 
 ## Building
 
-Mikode uses a fork of the recursie descent parse, TinyExpr that has been modified to handle bitwise instructions.
+Mikode uses a fork of the recursive descent parse, TinyExpr that has been modified to handle bitwise instructions.
 
 To build Mikode clone the repo `https://github.com/BobBurns/tinyexpr`
-and put `tinyexpr_bitw.h` and tinyexpr_bitw.c` in the path `../tefork/tinyexpr/`
+and put `tinyexpr_bitw.h` and `tinyexpr_bitw.c` in the path `../tefork/tinyexpr/`
 
 Also, if you dont have libncurses installed:
+
 `sudo apt install libncurses-dev`
 
 Then, in the mikode directory
@@ -36,9 +37,10 @@ Currently, Mikode has been tested on Ubuntu Linux.
 ## Example
 
 Compile the following code with 
+
 `./mikode example1.asm`
 
-```s
+```
 ; example1.asm
 ; example program to draw characters on the screen
 ; 
@@ -125,30 +127,46 @@ For a more complex example see snake.asm
 **Registers**
 
 r0 - r15
+
 X = r13:r12
+
 Y = r15:r14
+
 
 **Flags - Sreg**
 
-7 6 5 4 3 2 1 0
-I T H S V N Z C
+|7|6|5|4|3|2|1|0|
+|---------------|
+|-|T|-|S|V|N|Z|C|
+
 
 [I] Interupt (not used)
+
 [T] Transfer flag
+
 [H] Half Carry (not used)
+
 [S] Sign flag
+
 [V] Overflow flag
+
 [N] Negative flag
+
 [Z] Zero flag
+
 [C] Carry flag
+
 
 ------------------------------------------------
 
 ## Special Keys during execution
 
 F1 - toggle display registers
+
 F2 - clear display registers
+
 F3 - break (quit)
+
 F4 - stop/start execution
 
 
