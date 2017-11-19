@@ -1,0 +1,327 @@
+Listing for snake.asm.
+
+0x0000	            	; adaptation of snake 6502
+0x0000	            	; testing cur_asm
+0x0000	            	.def yH = r15
+0x0000	            	.def yL = r14
+0x0000	            	.def xH = r13
+0x0000	            	.def xL = r12
+0x0000	            	.def temp = r11
+0x0000	            	.def tmp2 = r10
+0x0000	            	.def count = r9
+0x0000	            	.def dreg = r1
+0x0000	            	; 
+0x0000	            	; Screen 0x40 X 0x9 0xc000
+0x0000	            	;
+0x0000	            	; Addresses
+0x0000	            	; direction 	0x102
+0x0000	            	; lenght 	0x103
+0x0000	            	; head 		0x110
+0x0000	            	; body 		0x112
+0x0000	940c  0200  		Jump 		start
+0x0004	            	;simulate 0 page
+0x0100	            	.org 0x100
+0x0100	            	opage:
+0x0100	00             		.db 0
+0x0200	            	.org 0x200
+0x0200	            	start:
+0x0200	940e  0212  		Call 		drawbrd
+0x0204	940e  023a  		Call		inits
+0x0208	940e  0260  		Call 		genapppos
+0x020c	940e  027a  		Call		loop
+0x0210	9598        		Break
+0x0212	            	; borders
+0x0212	            	drawbrd:
+0x0212	e4c0        		LoadImm		xL,0x40
+0x0214	ecd0        		LoadImm		xH,0xc0
+0x0216	e8a0        		LoadImm		tmp2,0x80
+0x0218	e080        		LoadImm		r8,0x0
+0x021a	e2bb        		LoadImm		temp,0x2b
+0x021c	e192        		LoadImm		count,0x12
+0x021e	            	drblp:
+0x021e	92bc        		StoreIndX	X,temp
+0x0220	0cca        		Add		xL,tmp2
+0x0222	1cd8        		AddWithCarry	xH,r8	
+0x0224	949a        		Decrement	count
+0x0226	f7c1        		BranchNotEqu	drblp
+0x0228	e0c0        		LoadImm		xL,0x0
+0x022a	ecd9        		LoadImm		xH,0xc9
+0x022c	e2bb        		LoadImm		temp,0x2b
+0x022e	e490        		LoadImm		count,0x40
+0x0230	            	drbotlp:
+0x0230	92bc        		StoreIndX	X,temp
+0x0232	9621        		AddImmWord	xH:xL,1
+0x0234	949a        		Decrement	count
+0x0236	f7d1        		BranchNotEqu	drbotlp
+0x0238	9508        		Return
+0x023a	            	inits:
+0x023a	            	;delay time
+0x023a	e011        		LoadImm		dreg,0x1
+0x023c	e0c2        		LoadImm		xL,0x02
+0x023e	e0d1        		LoadImm		xH,0x01
+0x0240	e0b2        		LoadImm		temp,2 ;start direction
+0x0242	92bd        		StoreIndX	X+,temp
+0x0244	e0b4        		LoadImm		temp,4 ;snake length
+0x0246	92bd        		StoreIndX	X+,temp
+0x0248	e1c0        		LoadImm		xL,0x10
+0x024a	            	; begining position
+0x024a	            	;
+0x024a	eca2        		LoadImm		tmp2,0xc2
+0x024c	e1b0        		LoadImm		temp,0x10
+0x024e	92bd        		StoreIndX	X+,temp
+0x0250	92ad        		StoreIndX	X+,tmp2
+0x0252	94ba        		Decrement	temp ; 0x31
+0x0254	92bd        		StoreIndX	X+,temp
+0x0256	92ad        		StoreIndX	X+,tmp2
+0x0258	94ba        		Decrement	temp ; 0x30
+0x025a	92bd        		StoreIndX	X+,temp
+0x025c	92ad        		StoreIndX	X+,tmp2
+0x025e	9508        		Return
+0x0260	            	genapppos:
+0x0260	e0c4        		LoadImm		xL,0x04
+0x0262	eed0        		LoadImm		xH,0xe0 ; 0xe004 rand number	
+0x0264	90bd        		LoadIndX	temp,X+
+0x0266	7bbf        		AndImm		temp,0xbf
+0x0268	92b0  0100  		StoreDirect	0x100,temp
+0x026c	90bc        		LoadIndX	temp,X
+0x026e	70b7        		AndImm		temp,0x07
+0x0270	eca0        		LoadImm		tmp2,0xc0
+0x0272	0cba        		Add		temp,tmp2
+0x0274	92b0  0101  		StoreDirect	0x101,temp
+0x0278	9508        		Return
+0x027a	            	loop:
+0x027a	940e  0296  		Call		readkeys
+0x027e	940e  0306  		Call		checkcoll
+0x0282	940e  0372  		Call		updatesna
+0x0286	940e  0414  		Call		drawapple
+0x028a	940e  0422  		Call		drawsnake
+0x028e	940e  0440  		Call		spinwheels	
+0x0292	940c  027a  		Jump		loop
+0x0296	            	readkeys:
+0x0296	90b0  e000  		LoadDirect	temp,0xe000 ; key in space
+0x029a	37b7        		CompareImm	temp,0x77 ; 'W'
+0x029c	f0a1        		BranchEqu	upkey
+0x029e	36b4        		CompareImm	temp,0x64 ; 'D'
+0x02a0	f131        		BranchEqu	rightkey
+0x02a2	37b3        		CompareImm	temp,0x73 ; 'S'
+0x02a4	f1c1        		BranchEqu	downkey
+0x02a6	36b1        		CompareImm	temp,0x61 ; 'A'
+0x02a8	f021        		BranchEqu	lftkj
+0x02aa	9508        		Return
+0x02ac	            	lftkj:
+0x02ac	940c  02f2  		Jump		leftkey
+0x02b0	            	upkey:
+0x02b0	e0b4        		LoadImm		temp,0x04
+0x02b2	90a0  0102  		LoadDirect	tmp2,0x102
+0x02b6	20ab        		And		tmp2,temp
+0x02b8	f451        		BranchNotEqu	upkjmp
+0x02ba	e0b1        		LoadImm		temp,0x01 ; 1 is up value
+0x02bc	92b0  0102  		StoreDirect	0x102,temp
+0x02c0	9508        		Return
+0x02c2	            	upkjmp:
+0x02c2	940c  0304  		Jump		illegalmv
+0x02c6	            	rightkey:
+0x02c6	e0b8        		LoadImm		temp,0x08 ; left key
+0x02c8	90a0  0102  		LoadDirect	tmp2,0x102
+0x02cc	20ab        		And		tmp2,temp
+0x02ce	f451        		BranchNotEqu	rtkjmp
+0x02d0	e0b2        		LoadImm		temp,0x02 ; 2 is right value
+0x02d2	92b0  0102  		StoreDirect	0x102,temp
+0x02d6	9508        		Return
+0x02d8	            	rtkjmp:
+0x02d8	940c  0304  		Jump		illegalmv
+0x02dc	            	downkey:
+0x02dc	e0b1        		LoadImm		temp,0x01
+0x02de	90a0  0102  		LoadDirect	tmp2,0x102
+0x02e2	20ab        		And		tmp2,temp
+0x02e4	f451        		BranchNotEqu	dwnkjmp
+0x02e6	e0b4        		LoadImm		temp,0x04 ; 4 is down value
+0x02e8	92b0  0102  		StoreDirect	0x102,temp
+0x02ec	9508        		Return
+0x02ee	            	dwnkjmp:
+0x02ee	940c  0304  		Jump		illegalmv
+0x02f2	            	leftkey:
+0x02f2	e0b2        		LoadImm		temp,0x02
+0x02f4	90a0  0102  		LoadDirect	tmp2,0x102
+0x02f8	20ab        		And		tmp2,temp
+0x02fa	f451        		BranchNotEqu	lftkjmp
+0x02fc	e0b8        		LoadImm		temp,0x08 ; 8 is left value
+0x02fe	92b0  0102  		StoreDirect	0x102,temp
+0x0302	9508        		Return
+0x0304	            	lftkjmp:
+0x0304	            	illegalmv:
+0x0304	9508        		Return
+0x0306	            	checkcoll:
+0x0306	940e  0310  		Call		chkapcol
+0x030a	940e  0340  		Call		chksnkcol
+0x030e	9508        		Return
+0x0310	            	chkapcol:
+0x0310	e0c0        		LoadImm		xL,0x00
+0x0312	e0d1        		LoadImm		xH,0x01
+0x0314	e1e0        		LoadImm		yL,0x10
+0x0316	2cfd        		Move		yH,xH
+0x0318	90bd        		LoadIndX	temp,X+
+0x031a	90a9        		LoadIndY	tmp2,Y+
+0x031c	14ba        		Compare		temp,tmp2
+0x031e	f501        		BranchNotEqu	dnchkapp
+0x0320	90bd        		LoadIndX	temp,X+
+0x0322	90a8        		LoadIndY	tmp2,Y
+0x0324	14ba        		Compare		temp,tmp2
+0x0326	f4c1        		BranchNotEqu	dnchkapp
+0x0328	e0c3        		LoadImm		xL,0x03
+0x032a	909c        		LoadIndX	count,X
+0x032c	9493        		Increment	count
+0x032e	9493        		Increment	count
+0x0330	929c        		StoreIndX	X,count
+0x0332	e1b0        		LoadImm		temp,0x10
+0x0334	181b        		Subtract	dreg,temp
+0x0336	f420        		BranchCarryClr	apcolcnt
+0x0338	e011        		LoadImm		dreg,1
+0x033a	            	apcolcnt:
+0x033a	940e  0260  		Call 		genapppos
+0x033e	            	dnchkapp:
+0x033e	9508        		Return
+0x0340	            	chksnkcol:
+0x0340	e090        		LoadImm		count,0
+0x0342	e1c2        		LoadImm		xL,0x12 ; snake segment
+0x0344	e0d1        		LoadImm		xH,0x01
+0x0346	e1e0        		LoadImm		yL,0x10	; snake head
+0x0348	e0f1        		LoadImm		yH,0x01
+0x034a	            	snkcollp:
+0x034a	90bd        		LoadIndX	temp,X+
+0x034c	90a9        		LoadIndY	tmp2,Y+
+0x034e	14ba        		Compare		temp,tmp2
+0x0350	f451        		BranchNotEqu	cntcollp
+0x0352	90bd        		LoadIndX	temp,X+
+0x0354	90a8        		LoadIndY	tmp2,Y	
+0x0356	14ba        		Compare 	temp,tmp2
+0x0358	f0a1        		BranchEqu	didcollide
+0x035a	            	cntcollp:
+0x035a	94ea        		Decrement 	yL ; back to head
+0x035c	94c3        		Increment	xL
+0x035e	9493        		Increment	count
+0x0360	90b0  0103  		LoadDirect	temp,0x103
+0x0364	14b9        		Compare		temp,count
+0x0366	f051        		BranchEqu	didntcoll
+0x0368	940c  034a  		Jump		snkcollp
+0x036c	            	didcollide:
+0x036c	940c  0448  		Jump		gameover
+0x0370	            	didntcoll:
+0x0370	9508        		Return
+0x0372	            	updatesna:
+0x0372	9090  0103  		LoadDirect	count,0x0103
+0x0376	e1c0        		LoadImm		xL,0x10
+0x0378	0cc9        		Add		xL,count
+0x037a	e0d1        		LoadImm		xH,0x01
+0x037c	e1e2        		LoadImm		yL,0x12
+0x037e	0ce9        		Add		yL,count
+0x0380	2cfd        		Move		yH,xH
+0x0382	            	updateloop:
+0x0382	90be        		LoadIndX	temp,-X
+0x0384	92ba        		StoreIndY	-Y,temp
+0x0386	949a        		Decrement	count
+0x0388	f7d1        		BranchNotEqu	updateloop
+0x038a	            	; next move the head
+0x038a	e1c0        		LoadImm		xL,0x10
+0x038c	e0d1        		LoadImm		xH,0x01
+0x038e	90b0  0102  		LoadDirect	temp,0x102 ;location of direction
+0x0392	94b6        		LogicalShiftRt	temp
+0x0394	f0c0        		BranchCarrySet	up
+0x0396	94b6        		LogicalShiftRt	temp
+0x0398	f070        		BranchCarrySet	rtjmp
+0x039a	94b6        		LogicalShiftRt	temp
+0x039c	f150        		BranchCarrySet	down
+0x039e	94b6        		LogicalShiftRt	temp
+0x03a0	f450        		BranchCarryClr	upddone
+0x03a2	940c  03f8  		Jump		left
+0x03a6	940c  03e0  	rtjmp:	Jump		right
+0x03aa	            	upddone:
+0x03aa	9508        		Return
+0x03ac	            	up:
+0x03ac	90ed        		LoadIndX 	yL,X+ ;low byte
+0x03ae	90fc        		LoadIndX	yH,X
+0x03b0	e0b0        		LoadImm		temp,0
+0x03b2	e8a0        		LoadImm		tmp2,0x80
+0x03b4	18ea        		Subtract	yL,tmp2
+0x03b6	08fb        		SubtractCarry	yH,temp 
+0x03b8	3cf0        		CompareImm	yH,0xc0
+0x03ba	f430        		BranchSameHigh	updone
+0x03bc	940c  0410  		Jump		collision
+0x03c0	            	updone:
+0x03c0	92fc        		StoreIndX	X,yH
+0x03c2	92ee        		StoreIndX	-X,yL
+0x03c4	9508        		Return
+0x03c6	            	down:
+0x03c6	90ed        		LoadIndX	yL,X+
+0x03c8	90fc        		LoadIndX	yH,X
+0x03ca	e0b0        		LoadImm		temp,0
+0x03cc	e8a0        		LoadImm		tmp2,0x80
+0x03ce	0cea        		Add		yL,tmp2
+0x03d0	1cfb        		AddWithCarry	yH,temp
+0x03d2	3cf9        		CompareImm	yH,0xc9
+0x03d4	f030        		BranchLower	downdone
+0x03d6	940c  0410  		Jump		collision
+0x03da	            	downdone:
+0x03da	92fc        		StoreIndX	X,yH
+0x03dc	92ee        		StoreIndX	-X,yL
+0x03de	9508        		Return
+0x03e0	            	right:
+0x03e0	90ed        		LoadIndX	yL,X+
+0x03e2	90fc        		LoadIndX	yH,X
+0x03e4	9631        		AddImmWord	yH:yL,1
+0x03e6	ebbf        		LoadImm		temp,0xbf
+0x03e8	20be        		And		temp,yL
+0x03ea	f441        		BranchNotEqu	rightdone
+0x03ec	feb4        		SkipBitRegSet	temp,4
+0x03ee	940c  0410  		Jump		collision
+0x03f2	            	rightdone:
+0x03f2	92fc        		StoreIndX	X,yH
+0x03f4	92ee        		StoreIndX	-X,yL
+0x03f6	9508        		Return
+0x03f8	            	left:	
+0x03f8	90ed        		LoadIndX	yL,X+
+0x03fa	90fc        		LoadIndX	yH,X
+0x03fc	9731        		SubtractImmWord	yH:yL,1
+0x03fe	e7bf        		LoadImm		temp,0x7f
+0x0400	20be        		And		temp,yL
+0x0402	37bf        		CompareImm	temp,0x7f
+0x0404	f771        		BranchNotEqu	rightdone
+0x0406	940c  0410  		Jump		collision
+0x040a	            	leftdone:
+0x040a	92fc        		StoreIndX	X,yH
+0x040c	92ee        		StoreIndX	-X,yL
+0x040e	9508        		Return
+0x0410	            	
+0x0410	            	collision:
+0x0410	940c  0448  		Jump		gameover
+0x0414	            	drawapple:
+0x0414	e4b0        		LoadImm		temp,0x40
+0x0416	e0c0        		LoadImm		xL,0x00
+0x0418	e0d1        		LoadImm		xH,0x01
+0x041a	90ed        		LoadIndX	yL,X+
+0x041c	90fc        		LoadIndX	yH,X
+0x041e	92b8        		StoreIndY	Y,temp
+0x0420	9508        		Return
+0x0422	            	drawsnake:	
+0x0422	e2b0        		LoadImm 	temp,0x20
+0x0424	e1c0        		LoadImm		xL,0x10
+0x0426	e0d1        		LoadImm		xH,0x01
+0x0428	90a0  0103  		LoadDirect	tmp2,0x0103
+0x042c	0cca        		Add		xL,tmp2
+0x042e	90ed        		LoadIndX	yL,X+
+0x0430	90fc        		LoadIndX	yH,X
+0x0432	92b8        		StoreIndY	Y,temp
+0x0434	e1c0        		LoadImm		xL,0x10
+0x0436	90ed        		LoadIndX	yL,X+
+0x0438	90fc        		LoadIndX	yH,X
+0x043a	e3be        		LoadImm		temp,0x3e
+0x043c	92b8        		StoreIndY	Y,temp
+0x043e	9508        		Return
+0x0440	            	spinwheels:
+0x0440	2c91        		Move		count,dreg
+0x0442	            	swhlp:	
+0x0442	949a        		Decrement	count
+0x0444	f7f1        		BranchNotEqu	swhlp
+0x0446	9508        		Return
+0x0448	            	gameover:
+0x0448	9598        		Break

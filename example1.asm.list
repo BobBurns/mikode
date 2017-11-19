@@ -1,0 +1,57 @@
+Listing for example1.asm.
+
+0x0000	            	; Using mikode.
+0x0000	            	; example program to draw characters on the screen
+0x0000	            	; 
+0x0000	            	.def xL = r12
+0x0000	            	.def xH = r13
+0x0000	            	.def temp = r11
+0x0000	            	.def count = r3
+0x0000	            	.org 0
+0x0000	e0c0        		LoadImm		xL,low(screen)
+0x0002	ecd0        		LoadImm		xH,high(screen)
+0x0004	e050        		LoadImm		r5,0
+0x0006	ef3f        		LoadImm		count,0xff
+0x0008	e041        		LoadImm		r4,0x01
+0x000a	            	loop:
+0x000a	e2bf        		LoadImm		temp,'/'
+0x000c	940e  0048  		Call		put
+0x0010	940e  0054  		Call		delay
+0x0014	e2bd        		LoadImm		temp,'-'
+0x0016	940e  0048  		Call		put
+0x001a	940e  0054  		Call		delay
+0x001e	e5bc        		LoadImm		temp,'\'
+0x0020	940e  0048  		Call		put
+0x0024	940e  0054  		Call		delay
+0x0028	e7bc        		LoadImm		temp,'|'
+0x002a	940e  0048  		Call		put
+0x002e	            	;put key in values on screen
+0x002e	923f        		Push		count
+0x0030	940e  0054  		Call		delay
+0x0034	940e  004e  		Call		erase
+0x0038	9233        		Pop		count
+0x003a	0cc4        		Add		xL,r4
+0x003c	1cd5        		AddWithCarry	xH,r5	
+0x003e	943a        		Decrement	count
+0x0040	f031        		BranchEqu	done
+0x0042	940c  000a  		Jump		loop
+0x0046	            	done:
+0x0046	9598        		Break
+0x0048	            	put:
+0x0048	2c0b        		Move		r0,temp
+0x004a	920c        		StoreIndX	X,r0
+0x004c	9508        		Return
+0x004e	            	erase:
+0x004e	e200        		LoadImm		r0,0x20
+0x0050	920c        		StoreIndX	X,r0
+0x0052	9508        		Return
+0x0054	            	delay:
+0x0054	e830        		LoadImm		count,0x80
+0x0056	            	dlp:	
+0x0056	943a        		Decrement	count
+0x0058	f7f1        		BranchNotEqu	dlp
+0x005a	9508        		Return
+0xc000	            	.org 0xc000
+0xc000	            	screen:
+0xc000	00             		.db 0
+0xc001	            	
