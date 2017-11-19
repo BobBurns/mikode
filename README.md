@@ -171,4 +171,4 @@ F4 - stop/start execution
 
 More at ...
 
-[Mikode Docs](https://gitlab.com/bobburns/basm/wikis/Mikode-Documentation)
+[Mikode Docs](https://github.com/BobBurns/mikode/wiki)
