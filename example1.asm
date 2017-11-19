@@ -23,7 +23,6 @@ loop:
 	Call		delay
 	LoadImm		temp,'|'
 	Call		put
-;put key in values on screen
 	Push		count
 	Call		delay
 	Call		erase

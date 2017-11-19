@@ -66,7 +66,7 @@ loop:
 	Call		delay
 	LoadImm		temp,'|'
 	Call		put
-;put key in values on screen
+; save count register on the stack
 	Push		count
 	Call		delay
 	Call		erase
