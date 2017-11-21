@@ -1,25 +1,23 @@
 # Mikode
 
-Mikode is an Assembly language Compiler and Emulator, written as a tool to teach kids.
+Mikode is an Assembly language Compiler and Emulator, written as a tool to teach anyone interested in learning to code in Assembly.
 The Syntax is a little less daunting, with Instructions like LoadImm
 instead of LDA or Increment instead of INC.
 
+The inspiration to write this program came from the desire to teach the foundations of computer logic.
+
+The Emulator has an address space of 64K including Monitor ROM to display characters to the screen.
 The Compiler parses this faux Assembly code into binary instructions based off the Atmel
 AVR MCU.
 
-The Emulator has an address space of 64K including Monitor ROM to display characters to the screen.
-
-The inspiration to write this program came from the desire to teach kids and interested adults about the foundations of computer logic.
-
-Using Mikode, one should ultimately be able to teach how to write simple games in Assembly.
-
+Using Mikode, you can learn how to write simple games in Assembly.
 Doesn't that sound like fun?
 
-Note that this repository is a work in progress :]
+Note that even though the program is working, this repository is a work in progress :]
 
 ## Building
 
-Mikode uses a fork of the recursive descent parse, TinyExpr that has been modified to handle bitwise instructions.
+Mikode uses a fork of the awesome recursive descent parser by Lewis Van Winkle, TinyExpr, that has been modified to handle bitwise instructions.
 
 To build Mikode clone the repo `https://github.com/BobBurns/tinyexpr`
 and put `tinyexpr_bitw.h` and `tinyexpr_bitw.c` in the path `../tefork/tinyexpr/`
@@ -32,7 +30,7 @@ Then, in the mikode directory
 
 `$ make; make clean`
 
-Currently, Mikode has been tested on Ubuntu Linux.
+Currently, Mikode has been tested on Ubuntu Linux. It should run on any Debian based Linux distro, and even MacOsX.
 
 ## Example
 
@@ -120,9 +118,15 @@ For a more complex example see snake.asm
 
 **Screen Rom**
 
-0xc000 - 0xd800
+0xc000 - 0xd800  Set to 128 (0x80) by 48 (0x30)
 
-0x80 X 0x30
+**Key in**
+
+0xe000  Load from this address to get key input
+
+**Random**
+
+0xe004 - 0xe007  Random int value every cycle
 
 **Registers**
 
@@ -168,6 +172,11 @@ F4 - stop/start execution
 
 
 ------------------------------------------------
+
+## Ideas
+
+Implement address space that interfaces with Raspberry Pi GPIO
+
 
 More at ...
 
