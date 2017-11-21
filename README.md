@@ -1,17 +1,19 @@
 # Mikode
 
-Mikode is an Assembly language Compiler and Emulator, written as a tool to teach anyone interested in learning to code in Assembly.
+Mikode is an Assembly language Compiler and Emulator, written as a tool 
+to teach anyone interested in learning to code in Assembly.
 The Syntax is a little less daunting, with Instructions like LoadImm
 instead of LDA or Increment instead of INC.
 
-The inspiration to write this program came from the desire to teach the foundations of computer logic.
+The inspiration to write this program came from the desire to teach 
+the foundations of computer logic.
+Using Mikode, you can learn how to write simple games in Assembly.
+Doesn't that sound like fun?
 
 The Emulator has an address space of 64K including Monitor ROM to display characters to the screen.
 The Compiler parses this faux Assembly code into binary instructions based off the Atmel
 AVR MCU.
 
-Using Mikode, you can learn how to write simple games in Assembly.
-Doesn't that sound like fun?
 
 Note that even though the program is working, this repository is a work in progress :]
 
@@ -114,7 +116,7 @@ For a more complex example see snake.asm
 
 **Stack**
 
-0xe000 - 0xffff
+0xf000 - 0xffff
 
 **Screen Rom**
 

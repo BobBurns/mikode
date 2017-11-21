@@ -82,8 +82,8 @@ int push_val(uint8_t val, run_state *state, uint8_t **prog)
 {
 	(*prog)[state->sp] = val;
 	/* dont allow sp to go past e000 */
-	if (--state->sp == 0xe000)
-		state->sp = 0xe000;
+	if (--state->sp == 0xf000)
+		state->sp = 0xf000;
 	return 0;
 }
 
