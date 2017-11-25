@@ -105,7 +105,7 @@ Checkout the compiled code `less example1.asm.list`
 
 Then run it
 
-`./mikorun example1`
+`$mrun example1`
 
 
 For a more complex example see snake.asm

@@ -28,6 +28,8 @@ $(distdir): FORCE
 	cp src/instructions.c.inc $(distdir)/src
 	mkdir -p $(distdir)/examples
 	cp examples/*.asm $(distdir)/examples
+	mkdir -p $(distdir)/docs
+	cp docs/* $(distdir)/docs
 
 distcheck: $(distdir).tar.gz
 	gzip -cd $(distdir).tar.gz | tar xvf -
