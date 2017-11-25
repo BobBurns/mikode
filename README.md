@@ -17,28 +17,28 @@ AVR MCU.
 
 Note that even though the program is working, this repository is a work in progress :]
 
-## Building
-
+Also, 
 Mikode uses a fork of the awesome recursive descent parser by Lewis Van Winkle, TinyExpr, that has been modified to handle bitwise instructions.
 
-To build Mikode clone the repo `https://github.com/BobBurns/tinyexpr`
-and put `tinyexpr_bitw.h` and `tinyexpr_bitw.c` in the path `../tefork/tinyexpr/`
+## Building
 
-Also, if you dont have libncurses installed:
+If you dont have libncurses installed:
 
 `sudo apt install libncurses-dev`
 
 Then, in the mikode directory
 
-`$ make; make clean`
+`$make all check`
+
+`$sudo make install`
 
 Currently, Mikode has been tested on Ubuntu Linux. It should run on any Debian based Linux distro, and even MacOsX.
 
 ## Example
 
-Compile the following code with 
+In the examples directory, compile the following code with 
 
-`./mikode example1.asm`
+`$mikode example1.asm`
 
 ```
 ; example1.asm
