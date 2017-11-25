@@ -1,4 +1,4 @@
-Listing for example1.asm.
+Listing for ../examples/example1.asm.
 
 0x0000	            	; Using mikode.
 0x0000	            	; example program to draw characters on the screen
@@ -25,7 +25,6 @@ Listing for example1.asm.
 0x0024	940e  0054  		Call		delay
 0x0028	e7bc        		LoadImm		temp,'|'
 0x002a	940e  0048  		Call		put
-0x002e	            	;put key in values on screen
 0x002e	923f        		Push		count
 0x0030	940e  0054  		Call		delay
 0x0034	940e  004e  		Call		erase

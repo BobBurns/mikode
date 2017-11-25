@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../tefork/tinyexpr/tinyexpr_bitw.h"
+#include "tinyexpr_bitw.h"
 
 /* helper val function */
 int val_label(line *in, char **b)

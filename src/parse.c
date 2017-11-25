@@ -291,6 +291,7 @@ int compile(char * filename)
 		goto fatal;
 	}
 
+	printf("success!\n");
 	/* free the pointers */
 
 fatal:
