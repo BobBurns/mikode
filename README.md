@@ -28,6 +28,8 @@ If you dont have libncurses installed:
 
 Then, in the mikode directory
 
+`./configure`
+
 `$make all check`
 
 `$sudo make install`
@@ -183,3 +185,7 @@ Implement address space that interfaces with Raspberry Pi GPIO
 More at ...
 
 [Mikode Docs](https://github.com/BobBurns/mikode/wiki)
+
+Tarball available at
+
+[reburns downloads](https://people.ucsc.edu/~reburns/downloads)
