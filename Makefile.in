@@ -1,14 +1,19 @@
-package = mikode
-version = 1.0
-tarname = $(package)
+# @configure_input@
+
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
 distdir = $(tarname)-$(version)
 
-prefix = /usr/local
-exec_prefix = $(prefix)
-bindir = $(exec_prefix)/bin
-export prefix
-export exec_prefix
-export bindir
+# Prefix-specific substitution variables
+prefix 		= @prefix@
+exec_prefix 	= @exec_prefix@
+bindir 		= @bindir@
+
+# VPATH-specific substitution variables
+srcdir		= @srcdir@
+VPATH		= @srcdir@
 
 all clean check install uninstall mikode mrun:
 	cd src && $(MAKE) $@
@@ -21,18 +26,20 @@ $(distdir).tar.gz: $(distdir)
 
 $(distdir): FORCE
 	mkdir -p $(distdir)/src
-	cp Makefile $(distdir)
-	cp src/Makefile $(distdir)/src
-	cp src/*.c $(distdir)/src
-	cp src/*.h $(distdir)/src
-	cp src/instructions.c.inc $(distdir)/src
+	cp $(srcdir)/configure $(distdir)
+	cp $(srcdir)/config.h.in $(distdir)
+	cp $(srcdir)/configure.ac $(distdir)
+	cp $(srcdir)/Makefile.in $(distdir)
+	cp $(srcdir)/src/Makefile.in $(distdir)/src
+	cp $(srcdir)/src/*.c $(distdir)/src
+	cp $(srcdir)/src/*.h $(distdir)/src
+	cp $(srcdir)/src/instructions.c.inc $(distdir)/src
 	mkdir -p $(distdir)/examples
-	cp examples/*.asm $(distdir)/examples
-	mkdir -p $(distdir)/docs
-	cp docs/* $(distdir)/docs
+	cp $(srcdir)/examples/*.asm $(distdir)/examples
 
 distcheck: $(distdir).tar.gz
 	gzip -cd $(distdir).tar.gz | tar xvf -
+	cd $(distdir); ./configure
 	cd $(distdir) && $(MAKE) all
 	cd $(distdir) && $(MAKE) check
 	cd $(distdir) && $(MAKE) DESTDIR=$${PWD}/_inst install
@@ -46,9 +53,15 @@ distcheck: $(distdir).tar.gz
 	rm -rf $(distdir)
 	@echo "*** Package $(distdir).tar.gz is ready for distribution."
 
+Makefile: Makefile.in config.status
+	./config.status $@
+
+config.status: configure
+	./config.status --recheck
+
 FORCE:
 	-rm $(distdir).tar.gz > /dev/null 2>&1
 	-rm -rf $(distdir) >/dev/null 2>&1
 
-.PHONY: all clean check dist distcheck install
+.PHONY: all clean check dist distcheck install uninstall
 

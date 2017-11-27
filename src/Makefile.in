@@ -1,0 +1,83 @@
+CC = gcc
+LIBS = m
+RLIBS = ncurses
+
+# @configure_input@
+
+# Package-specific substitution variables
+package		= @PACKAGE_NAME@
+version		= @PACKAGE_VERSION@
+tarname		= @PACKAGE_TARNAME@
+distdir		= $(tarname)-$(version)
+
+# Prefix-specific substitution variables
+prefix		= @prefix@
+exec_prefix	= @exec_prefix@
+bindir		= @bindir@
+
+# Tool-specific substitution variables
+CFLAGS = -g -Wall
+machine := $(shell uname -s)
+ifeq ($(machine),Darwin)
+	CFLAGS += -fno-stack-protector
+endif
+
+# VPATH-specific substitution variables
+srcdir		= @srcdir@
+VPATH		= @srcdir@
+
+
+all: mikode mrun
+
+kodeobj = $(srcdir)/parse.o $(srcdir)/operand.o $(srcdir)/token.o $(srcdir)/misc.o $(srcdir)/write.o $(srcdir)/main.o $(srcdir)/tinyexpr_bitw.o $(srcdir)/expression.o $(srcdir)/directive.o
+
+parse.o: $(srcdir)/parse.c $(srcdir)/common.h
+operand.o: $(srcdir)/operand.c $(srcdir)/common.h
+token.o: $(srcdir)/token.c $(srcdir)/common.h
+misc.o: $(srcdir)/misc.c $(srcdir)/common.h
+write.o: $(srcdir)/write.c $(srcdir)/common.h
+main.o: $(srcdir)/main.c $(srcdir)/common.h
+tinyexpr_bitw.o: $(srcdir)/tinyexpr_bitw.c $(srcdir)/tinyexpr_bitw.h
+expression.o: $(srcdir)/expression.c $(srcdir)/common.h
+directive..o: $(srcdir)/directive.c $(srcdir)/common.h
+
+runobj = $(srcdir)/run.o $(srcdir)/load.o $(srcdir)/execute.o $(srcdir)/run_misc.o $(srcdir)/display.o
+
+run.o: $(srcdir)/run.c $(srcdir)/runheader.h
+load.o: $(srcdir)/load.c $(srcdir)/runheader.h
+execute.o: $(srcdir)/execute.c $(srcdir)/runheader.h
+run_misc.o: $(srcdir)/run_misc.c $(srcdir)/runheader.h
+display.o: $(srcdir)/display.c $(srcdir)/runheader.h
+
+#main rules
+
+mikode: $(kodeobj)
+	$(CC) $(CFLAGS) -o $@ $(kodeobj) -l$(LIBS)
+
+mrun: $(runobj)
+	$(CC) $(CFLAGS) -o $@ $(runobj) -l$(RLIBS)
+
+check: all
+	cp $(srcdir)/../examples/example1.asm ${PWD}
+	./mikode example1.asm | grep "success!"
+	@echo "*** ALL TESTS PASSED ***"
+
+install:
+	install -d $(DESTDIR)$(bindir)
+	install -m 0755 mikode $(DESTDIR)$(bindir)
+	install -m 0755 mrun $(DESTDIR)$(bindir)
+
+uninstall:
+	-rm $(DESTDIR)$(bindir)/mikode
+	-rm $(DESTDIR)$(bindir)/mrun
+
+Makefile: Makefile.in ../config.status
+	cd .. && ./config.status src/$@
+
+../config.status: ../configure
+	cd .. && ./config.status --recheck
+
+.PHONY: clean all check install uninstall
+clean: 
+	rm -f mikode mrun $(kodeobj) $(runobj)
+
