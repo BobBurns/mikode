@@ -30,9 +30,9 @@ Then, in the mikode directory
 
 `./configure`
 
-`$make all check`
+`make all check`
 
-`$sudo make install`
+`sudo make install`
 
 Currently, Mikode has been tested on Ubuntu Linux. It should run on any Debian based Linux distro, and even MacOsX.
 
