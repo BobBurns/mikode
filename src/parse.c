@@ -226,11 +226,7 @@ int compile(char * filename)
 			err = get_expr_proxy(&in[j], &addr_to, plabelc);
 			free(plabelc);
 			if (err < 0) {
-				printf("error get expression at %d", j);
-				goto fatal;
-			}
-			if (err < 0) {
-				printf("error geting expr from label\n");
+				printf("Invalid expression at %d\n", j+1);
 				goto fatal;
 			}
 			/* loop over lines looking for address label */

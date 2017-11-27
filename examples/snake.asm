@@ -54,7 +54,7 @@ drbotlp:
 	Return
 inits:
 ;delay time
-	LoadImm		dreg,0x1
+	LoadImm		dreg,0x80
 	LoadImm		xL,0x02
 	LoadImm		xH,0x01
 	LoadImm		temp,2 ;start direction
@@ -267,15 +267,17 @@ right:
 	LoadIndX	yL,X+
 	LoadIndX	yH,X
 	AddImmWord	yH:yL,1
+	LoadImm		temp,0x3f
+	And		temp,yL		;test 0xc0
+	BranchEqu	rcoll
 	LoadImm		temp,0xbf
-	And		temp,yL
-	BranchNotEqu	rightdone
-	SkipBitRegSet	temp,4
-	Jump		collision
-rightdone:
+	And		temp,yL		;test 0x40
+	BranchEqu	rcoll
 	StoreIndX	X,yH
 	StoreIndX	-X,yL
 	Return
+rcoll:
+	Jump		collision
 left:	
 	LoadIndX	yL,X+
 	LoadIndX	yH,X
@@ -283,7 +285,7 @@ left:
 	LoadImm		temp,0x7f
 	And		temp,yL
 	CompareImm	temp,0x7f
-	BranchNotEqu	rightdone
+	BranchNotEqu	leftdone
 	Jump		collision
 leftdone:
 	StoreIndX	X,yH

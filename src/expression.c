@@ -73,7 +73,6 @@ int get_expr(line *in, int16_t *val, char **b)
 		if (DEBUG)
 			printf("result 0x%x\n", *val);
 	} else {
-		printf("error...%d \n", err);
 		ec = -1;
 	}
 	for (i = 0; i< equate_count; i++) {
