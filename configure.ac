@@ -3,6 +3,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([Mikode], [1.0], [reburns@protonmail.com])
+AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h])
 
@@ -10,7 +11,10 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_CC
 
 # Checks for libraries.
-AC_CHECK_LIB([ncurses], [mvwaddch])
+# Commenting this out so automake doesn't link to both libraris
+# See src/Makefile.am mikode_LDADD
+#AC_CHECK_LIB([ncurses], [mvwaddch])
+#AC_CHECK_LIB([m], [pow])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h limits.h stdint.h stdlib.h string.h unistd.h])
