@@ -58,6 +58,59 @@ Tutorials will be coming soon.
 
 -----
 
+Memory
+
+Stack
+0xf000 - 0xffff
+
+Screen Rom
+0xc000 - 0xd800  Set to 128 (0x80) by 48 (0x30)
+
+Key in
+0xe000  Load from this address to get key input
+
+Random
+0xe004 - 0xe007  Random int value every cycle
+
+Registers
+r0 - r15
+X = r13:r12
+Y = r15:r14
+
+
+Flags - Sreg
+
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+| - | - | - | - | - | - | - | - |
+| - | T | - | S | V | N | Z | C |
+
+
+[T] Transfer flag
+[S] Sign flag
+[V] Overflow flag
+[N] Negative flag
+[Z] Zero flag
+[C] Carry flag
+
+-----
+
+Special Keys during execution
+
+F1 - toggle display registers
+F2 - clear display registers
+F3 - break (quit)
+F4 - stop/start execution
+
+-----
+
+Ideas
+
+Implement address space that interfaces with Raspberry Pi GPIO
+
+Tarball available at
+
+https://people.ucsc.edu/~reburns/downloads
+
 Licensing
 
 Mikode is released under the General Public License version 3 (GPLv3+).
