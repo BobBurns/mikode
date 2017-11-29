@@ -1,6 +1,7 @@
 bin_PROGRAMS = mikode
 
-mikode_SOURCES = tinyexpr_bitw.h common.h instructions.h ruheader.h main.c parse.c operand.c token.c misc.c write.c tinyexpr_bitw.c expression.c directive.c run.c load.c execute.c run_misc.c display.c
+mikode_CFLAGS = -g -Wall
+mikode_SOURCES = tinyexpr_bitw.h common.h instructions.h runheader.h main.c parse.c operand.c token.c misc.c write.c tinyexpr_bitw.c expression.c directive.c run.c load.c execute.c run_misc.c display.c
 
 check_SCRIPTS = asmcheck.sh
 TESTS = $(check_SCRIPTS)
