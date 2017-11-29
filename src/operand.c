@@ -659,20 +659,3 @@ int get_operand(line * in, char **b, uint8_t ***dp)
 
 
 
-int getopcode(line *in, char *b)
-{
-	if (DEBUG)
-		printf("getopcode\n");
-	uint8_t i;
-	for ( i = 0; i < MAX_INSTR; i++)
-	{
-		/* TODO add type to line */
-		if (strncasecmp(b,ins[i].name, MAX_TOK) == 0) 
-		{
-			in->opcode = ins[i].opcode;
-			in->type = ins[i].type;
-			return 0;
-		}
-	}
-	return -1;
-}

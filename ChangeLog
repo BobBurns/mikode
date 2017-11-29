@@ -6,4 +6,8 @@ instead just run mikode -r to execute compiled bin
 * this is for version 1.0.1 added getopt support
 help version run options
 
+* got rid of those pesky compiler warnings for braces
+around the instruction struct. And moved the whole thing
+to a new file opcode.c so the compiler won't complain 
+about ins not being used.
 

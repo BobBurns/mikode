@@ -100,12 +100,13 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_mikode_OBJECTS = mikode-main.$(OBJEXT) mikode-parse.$(OBJEXT) \
-	mikode-operand.$(OBJEXT) mikode-token.$(OBJEXT) \
-	mikode-misc.$(OBJEXT) mikode-write.$(OBJEXT) \
-	mikode-tinyexpr_bitw.$(OBJEXT) mikode-expression.$(OBJEXT) \
-	mikode-directive.$(OBJEXT) mikode-run.$(OBJEXT) \
-	mikode-load.$(OBJEXT) mikode-execute.$(OBJEXT) \
-	mikode-run_misc.$(OBJEXT) mikode-display.$(OBJEXT)
+	mikode-opcode.$(OBJEXT) mikode-operand.$(OBJEXT) \
+	mikode-token.$(OBJEXT) mikode-misc.$(OBJEXT) \
+	mikode-write.$(OBJEXT) mikode-tinyexpr_bitw.$(OBJEXT) \
+	mikode-expression.$(OBJEXT) mikode-directive.$(OBJEXT) \
+	mikode-run.$(OBJEXT) mikode-load.$(OBJEXT) \
+	mikode-execute.$(OBJEXT) mikode-run_misc.$(OBJEXT) \
+	mikode-display.$(OBJEXT)
 mikode_OBJECTS = $(am_mikode_OBJECTS)
 mikode_LDADD = $(LDADD)
 mikode_LINK = $(CCLD) $(mikode_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
@@ -465,7 +466,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 mikode_CFLAGS = -g -Wall
-mikode_SOURCES = tinyexpr_bitw.h common.h instructions.h runheader.h main.c parse.c operand.c token.c misc.c write.c tinyexpr_bitw.c expression.c directive.c run.c load.c execute.c run_misc.c display.c
+mikode_SOURCES = tinyexpr_bitw.h common.h instructions.h runheader.h main.c parse.c opcode.c operand.c token.c misc.c write.c tinyexpr_bitw.c expression.c directive.c run.c load.c execute.c run_misc.c display.c
 check_SCRIPTS = asmcheck.sh
 TESTS = $(check_SCRIPTS)
 CLEANFILES = asmcheck.sh example1.asm example1 example1.asm.list
@@ -562,6 +563,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-load.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-misc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-opcode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-operand.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-run.Po@am__quote@
@@ -611,6 +613,20 @@ mikode-parse.obj: parse.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='parse.c' object='mikode-parse.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -c -o mikode-parse.obj `if test -f 'parse.c'; then $(CYGPATH_W) 'parse.c'; else $(CYGPATH_W) '$(srcdir)/parse.c'; fi`
+
+mikode-opcode.o: opcode.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -MT mikode-opcode.o -MD -MP -MF $(DEPDIR)/mikode-opcode.Tpo -c -o mikode-opcode.o `test -f 'opcode.c' || echo '$(srcdir)/'`opcode.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mikode-opcode.Tpo $(DEPDIR)/mikode-opcode.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='opcode.c' object='mikode-opcode.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -c -o mikode-opcode.o `test -f 'opcode.c' || echo '$(srcdir)/'`opcode.c
+
+mikode-opcode.obj: opcode.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -MT mikode-opcode.obj -MD -MP -MF $(DEPDIR)/mikode-opcode.Tpo -c -o mikode-opcode.obj `if test -f 'opcode.c'; then $(CYGPATH_W) 'opcode.c'; else $(CYGPATH_W) '$(srcdir)/opcode.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mikode-opcode.Tpo $(DEPDIR)/mikode-opcode.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='opcode.c' object='mikode-opcode.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -c -o mikode-opcode.obj `if test -f 'opcode.c'; then $(CYGPATH_W) 'opcode.c'; else $(CYGPATH_W) '$(srcdir)/opcode.c'; fi`
 
 mikode-operand.o: operand.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -MT mikode-operand.o -MD -MP -MF $(DEPDIR)/mikode-operand.Tpo -c -o mikode-operand.o `test -f 'operand.c' || echo '$(srcdir)/'`operand.c
