@@ -45,38 +45,22 @@ int run(uint8_t **prog)
 	return 0;
 
 }
-int
-main (int argc, char** argv)
+int run_main (char* exec)
 {
 	int ret;
 	
-	/* TODO getopts for more */
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s <input file>\n", argv[0]);
-		exit(-1);
-	}
-
 	uint8_t *prog;
-	ret = load(argv[1], &prog);
+	ret = load(exec, &prog);
 	if (ret < 0)
-		exit(-1);
+		return -1;
 
-	/*
-	for (i = 0; i < 0x300; i++) {
-		printf("%02x ", prog[i]);
-		if (((i+1) % 16) == 0)
-			printf("\n");
-	}
-	printf("\n");
-	*/
-	/* initialize windows */
 
 	ret = run(&prog);
 	if (ret < 0) {
 		fprintf(stderr, "errors..\n");
-		exit(-1);
+		return -1;
 	}
 
-	exit(0);
+	return 0;
 
 }

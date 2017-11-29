@@ -5,7 +5,7 @@ static int usage_flag;
 
 int usage()
 {
-	printf("Usage: mikode <input file>\n");
+	printf("Usage: mikode [-r] <input file>\n");
 	return 0;
 }
 
@@ -32,7 +32,7 @@ int
 main(int argc, char **argv)
 {
 	int c;
-	int ret;
+	int ret, run = 0;
 	char *filename;
 
 	while (1)
@@ -41,10 +41,11 @@ main(int argc, char **argv)
 		{
 			{"version", no_argument, &usage_flag, 1},
 			{"help", no_argument, &usage_flag, 2},
+			{"run", no_argument, 0, 'r'},
 			{ 0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long(argc, argv, "", long_options, &option_index);
+		c = getopt_long(argc, argv, "r", long_options, &option_index);
 
 		if (c == -1)
 			break;
@@ -61,6 +62,9 @@ main(int argc, char **argv)
 				exit(0);
 			}
 			break;
+		case 'r':
+			run = 1;
+			break;
 		default:
 			usage();
 			exit(-1);
@@ -74,7 +78,11 @@ main(int argc, char **argv)
 
 	filename = strndup(argv[optind], strlen(argv[optind]));
 
-	ret = compile(filename);
+	if (run)
+		ret = run_main(filename);
+	else
+		ret = compile(filename);
+
 	free(filename);
 	if (ret < 0)
 		exit(-1);

@@ -107,7 +107,7 @@ Checkout the compiled code `less example1.asm.list`
 
 Then run it
 
-`$mrun example1`
+`mikode -r example1`
 
 
 For a more complex example see snake.asm

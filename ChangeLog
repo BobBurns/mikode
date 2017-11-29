@@ -1,0 +1,9 @@
+2017-11-28 Bob Burns <reburns@protonmail.com>
+
+* run.c got rid of seperate program mrun
+instead just run mikode -r to execute compiled bin
+
+* this is for version 1.0.1 added getopt support
+help version run options
+
+

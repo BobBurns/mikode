@@ -86,7 +86,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = mikode$(EXEEXT) mrun$(EXEEXT)
+bin_PROGRAMS = mikode$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -102,13 +102,10 @@ PROGRAMS = $(bin_PROGRAMS)
 am_mikode_OBJECTS = main.$(OBJEXT) parse.$(OBJEXT) operand.$(OBJEXT) \
 	token.$(OBJEXT) misc.$(OBJEXT) write.$(OBJEXT) \
 	tinyexpr_bitw.$(OBJEXT) expression.$(OBJEXT) \
-	directive.$(OBJEXT)
+	directive.$(OBJEXT) run.$(OBJEXT) load.$(OBJEXT) \
+	execute.$(OBJEXT) run_misc.$(OBJEXT) display.$(OBJEXT)
 mikode_OBJECTS = $(am_mikode_OBJECTS)
-mikode_DEPENDENCIES =
-am_mrun_OBJECTS = run.$(OBJEXT) load.$(OBJEXT) execute.$(OBJEXT) \
-	run_misc.$(OBJEXT) display.$(OBJEXT)
-mrun_OBJECTS = $(am_mrun_OBJECTS)
-mrun_DEPENDENCIES =
+mikode_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -137,8 +134,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(mikode_SOURCES) $(mrun_SOURCES)
-DIST_SOURCES = $(mikode_SOURCES) $(mrun_SOURCES)
+SOURCES = $(mikode_SOURCES)
+DIST_SOURCES = $(mikode_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -459,10 +456,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-mikode_SOURCES = tinyexpr_bitw.h common.h instructions.h main.c parse.c operand.c token.c misc.c write.c tinyexpr_bitw.c expression.c directive.c
-mikode_LDADD = -lm
-mrun_SOURCES = runheader.h run.c load.c execute.c run_misc.c display.c
-mrun_LDADD = -lncurses
+mikode_SOURCES = tinyexpr_bitw.h common.h instructions.h ruheader.h main.c parse.c operand.c token.c misc.c write.c tinyexpr_bitw.c expression.c directive.c run.c load.c execute.c run_misc.c display.c
 check_SCRIPTS = asmcheck.sh
 TESTS = $(check_SCRIPTS)
 CLEANFILES = asmcheck.sh example1.asm example1 example1.asm.list
@@ -545,10 +539,6 @@ clean-binPROGRAMS:
 mikode$(EXEEXT): $(mikode_OBJECTS) $(mikode_DEPENDENCIES) $(EXTRA_mikode_DEPENDENCIES) 
 	@rm -f mikode$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(mikode_OBJECTS) $(mikode_LDADD) $(LIBS)
-
-mrun$(EXEEXT): $(mrun_OBJECTS) $(mrun_DEPENDENCIES) $(EXTRA_mrun_DEPENDENCIES) 
-	@rm -f mrun$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(mrun_OBJECTS) $(mrun_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -960,8 +950,6 @@ uninstall-am: uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
-
-example1.asm:
 
 asmcheck.sh:
 	echo 'cp $(srcdir)/../examples/example1.asm ${PWD}; \

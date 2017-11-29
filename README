@@ -45,7 +45,7 @@ to build with './configure; make' and then 'sudo make install'
 Examples
 
 Checkout the examples directory and compile example1.asm with
-'mikode example1.asm' then run it with 'mrun example1'
+'mikode example1.asm' then run it with 'mikode -r example1'
 
 -----
 
