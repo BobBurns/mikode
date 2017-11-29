@@ -754,7 +754,7 @@ int swap(uint16_t op, run_state *state)
 int execute(run_state *state, uint8_t **prog, _win *w)
 {
 	uint16_t op, op2;
-	int err;
+	int err = 0;
 	/* stack pointer */
 	state->sp = 0xffff;
 	while (1) {

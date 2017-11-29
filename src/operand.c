@@ -32,7 +32,7 @@ uint8_t get_reg(char *b)
 	{
 		reg[1] = '\0';
 	}
-	reg[3] = '\0';
+	reg[2] = '\0';
 	regp = strndup(reg, 3);
 	d = (uint8_t)atoi(regp);
 	free(regp);

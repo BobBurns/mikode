@@ -11,3 +11,6 @@ around the instruction struct. And moved the whole thing
 to a new file opcode.c so the compiler won't complain 
 about ins not being used.
 
+* minor bug fix compiler warning for err in execute.c
+and reg[3] out of bounds
+
