@@ -34,7 +34,7 @@ Then, in the mikode directory
 
 `sudo make install`
 
-Currently, Mikode has been tested on Ubuntu Linux. It should run on any Debian based Linux distro, and even MacOsX.
+Currently, Mikode has been tested on Ubuntu Linux. It should run on any Debian based Linux distro.
 
 ## Example
 

@@ -15,7 +15,7 @@ static struct
   {
   ".equ", DB_T, 0x0000},
   {
-  "AddWithCarry", DIR_DUAL, 0x1c00},
+  "AddWithC", DIR_DUAL, 0x1c00},
   {
   "Add", DIR_DUAL, 0x0c00},
   {
@@ -161,7 +161,7 @@ static struct
   {
   "RotateRight", DIR_SING, 0x9407},	/* rotate right through carry */
   {
-  "SubtractCarry", DIR_DUAL, 0x0800},	/* subtract with carry */
+  "SubtractWithC", DIR_DUAL, 0x0800},	/* subtract with carry */
   {
   "SubtractImmC", IMM_BYTE, 0x4000},	/* subtract immediate with carry */
     /* not implemeting i/o register codes eg sbic */

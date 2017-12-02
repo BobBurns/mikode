@@ -28,7 +28,7 @@ loop:
 	Call		erase
 	Pop		count
 	Add		xL,r4
-	AddWithCarry	xH,r5	
+	AddWithC	xH,r5	
 	Decrement	count
 	BranchEqu	done
 	Jump		loop

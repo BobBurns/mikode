@@ -39,7 +39,7 @@ drawbrd:
 drblp:
 	StoreIndX	X,temp
 	Add		xL,tmp2
-	AddWithCarry	xH,r8	
+	AddWithC	xH,r8	
 	Decrement	count
 	BranchNotEqu	drblp
 	LoadImm		xL,0x0
@@ -241,7 +241,7 @@ up:
 	LoadImm		temp,0
 	LoadImm		tmp2,0x80
 	Subtract	yL,tmp2
-	SubtractCarry	yH,temp 
+	SubtractWithC	yH,temp 
 	CompareImm	yH,0xc0
 	BranchSameHigh	updone
 	Jump		collision
@@ -255,7 +255,7 @@ down:
 	LoadImm		temp,0
 	LoadImm		tmp2,0x80
 	Add		yL,tmp2
-	AddWithCarry	yH,temp
+	AddWithC	yH,temp
 	CompareImm	yH,0xc9
 	BranchLower	downdone
 	Jump		collision

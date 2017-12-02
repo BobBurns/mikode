@@ -1,10 +1,14 @@
 2017-12-02 Bob Burns <reburns@protonmail.com>
 
 ** reformating for gnu standard using indent
+commiting version 1.0.2 and uploading
 
 ** added support for checking input file in
 parse.c. Check for file, check for .asm handle
 null file pointer.
+
+** changing AddWithCarry to AddWithC for consistency
+with SubtractWithC
 
 2017-11-28 Bob Burns <reburns@protonmail.com>
 

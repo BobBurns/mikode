@@ -34,7 +34,7 @@ loop:
 	Call		delay
 	Call		erase
 	Add		xL,r4
-	AddWithCarry	xH,r7	
+	AddWithC	xH,r7	
 	Decrement	count
 	BranchEqu	done
 	Jump		loop
