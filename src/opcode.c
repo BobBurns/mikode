@@ -70,7 +70,7 @@ static struct {
 	{"LoadDirect", LD_DIR, 0x9000}, /* load direct from data space */
 	{"LogicalShiftRt", DIR_SING, 0x9406}, /* logical shift right */
 	/* using top 15 reg for opcode instead of add, rd, rd */
-	{"LogicalShiftLft", DIR_STD, 0x0c00}, /* logical shift left  same as add rd,rd*/
+	{"LogicalShiftLt", DIR_STD, 0x0c00}, /* logical shift left  same as add rd,rd*/
 	{"Move", DIR_DUAL, 0x2c00}, /* copy register */
 	{"MoveWord", DIR_WORD, 0x0100}, /* copy register word Rd+1:Rd,Rr+1:Rr*/
 	{"Multiply", DIR_DUAL, 0x9c00}, /* multiply unsigned */

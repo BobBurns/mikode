@@ -40,7 +40,7 @@ Currently, Mikode has been tested on Ubuntu Linux. It should run on any Debian b
 
 In the examples directory, compile the following code with 
 
-`$mikode example1.asm`
+`mikode example1.asm`
 
 ```
 ; example1.asm

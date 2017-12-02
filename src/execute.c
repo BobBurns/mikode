@@ -492,7 +492,8 @@ int muls(uint16_t op, run_state *state)
 int neg(uint16_t op, run_state *state)
 {
 	uint8_t d = (op & 0x00f0) >> 4;
-	state->reg[d] = ~state->reg[d] + 1;
+	if (state->reg[d] != 0x80)
+		state->reg[d] = ~state->reg[d] + 1;
 	if (state->reg[d] == 0x80)
 		state->sreg |= V;
 	else
