@@ -135,20 +135,33 @@ compile (char *filename)
   char c;
 
   /* get number lines to allocate line structs */
+  if (strcmp(filename + (strlen(filename) - 4), ".asm") != 0)
+    {
+      fprintf(stderr, "Bad file format.  Please use .asm extension.\n");
+      return -1;
+    }
+
+  if (access(filename, F_OK) == -1)
+    {
+      fprintf(stderr, "File %s does not exist!.\nAborting... \n", filename);
+      return -1;
+    }
+
+
   input_file = fopen (filename, "r");
+  if (input_file == NULL)
+    {
+      fprintf (stderr, "Bad input file. Do you have read permissions?\n");
+      return -1;
+    }
 
   /* having trouble when vim is editing file */
   if ((fsync (fileno (input_file))) == -1)
     {
       perror ("fsync()");
-      exit (-1);
+      return -1;
     }
 
-  if (input_file == NULL)
-    {
-      fprintf (stderr, "bad input file\n");
-      exit (-1);
-    }
 
   /* count newlines to calculate lines to allocate */
   while ((c = fgetc (input_file)) != EOF)
@@ -159,8 +172,8 @@ compile (char *filename)
   line *in = malloc (sizeof (line) * count);
   if (in == NULL)
     {
-      fprintf (stderr, "bad malloc!\n");
-      exit (-1);
+      fprintf (stderr, "Bad malloc!\n");
+      return -1;
     }
 
   rewind (input_file);
@@ -188,7 +201,7 @@ compile (char *filename)
       ret = parse (&in[i], &dp, line_buf);
       if (ret == -1)
 	{
-	  fprintf (stderr, "error around line %04x\n", i + 1);
+	  fprintf (stderr, "Error around line %04x\n", i + 1);
 	  goto fatal;
 	}
       /* copy text */
@@ -203,7 +216,7 @@ compile (char *filename)
 	      check = in[i - 1].address + in[i - 1].size;
 	      if (check > 0xffff)
 		{
-		  fprintf (stderr, "address out of range: 0x%x\n",
+		  fprintf (stderr, "Address out of range: 0x%x\n",
 			   in[i].address);
 		  goto fatal;
 		}
@@ -233,7 +246,7 @@ compile (char *filename)
 	  err = put_equate (in[k].label, 0, in[k].address);
 	  if (err < 0)
 	    {
-	      printf ("error adding label to equate\n");
+	      printf ("Error adding label to equate\n");
 	      goto fatal;
 	    }
 	}
@@ -269,7 +282,7 @@ compile (char *filename)
 		printf ("branch value: %x\n", br_val);
 	      if (br_val > 63 || br_val < -64)
 		{
-		  fprintf (stderr, "branch value out of range!\n");
+		  fprintf (stderr, "Branch value out of range!\n");
 		  goto fatal;
 		}
 	      in[j].opcode =
@@ -301,7 +314,7 @@ compile (char *filename)
 	      kval = (uint16_t) addr_to;
 	      if ((char) kval > 63 || (char) kval < 0)
 		{
-		  printf ("value out of range\n");
+		  printf ("Value out of range\n");
 		  goto fatal;
 		}
 	      kH = ((kval << 2) & 0x00c0);
@@ -316,13 +329,13 @@ compile (char *filename)
   ret = write_listing (&in, &dp, i, filename);
   if (ret < 0)
     {
-      fprintf (stderr, "problem with write_listing\n");
+      fprintf (stderr, "Problem with write_listing\n");
       goto fatal;
     }
   ret = write_asm (&in, &dp, i, filename);
   if (ret < 0)
     {
-      fprintf (stderr, "problem with write_asm\n");
+      fprintf (stderr, "Problem with write_asm\n");
       goto fatal;
     }
 

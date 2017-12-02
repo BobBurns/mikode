@@ -14,7 +14,7 @@
 #include <getopt.h>
 
 static int usage_flag;
-char *version = "Mikode 1.0.1";
+char *version = "Mikode - 1.0.2";
 
 int
 usage ()

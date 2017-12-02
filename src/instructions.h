@@ -1,3 +1,5 @@
+/* defines for instruction types */
+
 #define DIR_SING 18 /* register direct Rd*/
 #define DIR_DUAL 17 /* register direct dual Rd,Rr */
 #define DIR_STD 16 /* register direct single to dual .used to translate intructions*/
