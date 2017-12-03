@@ -62,6 +62,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if you have the </opt/vc/include/bcm_host.h> header file. */
+#undef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+
 /* Name of package */
 #undef PACKAGE
 

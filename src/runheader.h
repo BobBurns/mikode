@@ -34,6 +34,12 @@
 #define SCR_MAXX 0x80
 #define SCR_MAXY 0x30
 
+/* for gpio */
+#define IN 	0
+#define OUT 	1
+#define LOW	0
+#define HIGH	1
+
 typedef struct{
 	uint16_t ip;
 	uint16_t sp;
@@ -45,10 +51,12 @@ typedef struct{
 	WINDOW *screen;
 	WINDOW *text;
 	uint8_t	*old_win;
-}_win;
+	int	gpio_rom;
+	uint8_t *old_rom;
+}_rom;
 
 int load(char *, uint8_t **); 
-int execute(run_state *, uint8_t **, _win *);
+int execute(run_state *, uint8_t **, _rom *);
 int check_zsnf(uint8_t , run_state *);
 int check_cv(uint16_t, uint8_t, uint8_t, run_state *);
 int check_subf(uint16_t, uint8_t, uint8_t, run_state *);
@@ -57,4 +65,9 @@ uint8_t pop_val(run_state *, uint8_t **);
 int push_val(uint8_t, run_state *, uint8_t **);
 int inc_reg(uint8_t rg, run_state *);
 int dec_reg(uint8_t rg, run_state *);
-int run_io(uint16_t, run_state *, uint8_t **, _win *);
+int run_io(uint16_t, run_state *, uint8_t **, _rom *);
+int gpio_init();
+int gpio_close();
+int gpio_direction(int, int);
+uint8_t gpio_read(int);
+int gpio_write(int, int);

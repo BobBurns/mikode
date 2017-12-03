@@ -4494,6 +4494,18 @@ fi
 
 done
 
+for ac_header in /opt/vc/include/bcm_host.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "/opt/vc/include/bcm_host.h" "ac_cv_header__opt_vc_include_bcm_host_h" "$ac_includes_default"
+if test "x$ac_cv_header__opt_vc_include_bcm_host_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE__OPT_VC_INCLUDE_BCM_HOST_H 1
+_ACEOF
+
+fi
+
+done
+
 
 # Checks for typedefs, structures, and compiler characteristics.
 ac_fn_c_find_intX_t "$LINENO" "16" "ac_cv_c_int16_t"

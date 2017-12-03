@@ -3,7 +3,7 @@
 
 int show_reg = 0;
 int
-run_io (uint16_t op, run_state * state, uint8_t ** prog, _win * w)
+run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 {
   /* scan screen data space and print character to screen */
   int i, ch, r;
@@ -89,6 +89,55 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _win * w)
   r = rand ();
   (*prog)[0xe004] = (uint8_t) r;
   (*prog)[0xe005] = (uint8_t) (r >> 8);
+
+  /* gpio */
+
+#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+
+  uint8_t new_val = (*prog)[0xe100];
+  uint8_t tst_val = 0;
+  /* check gpio_out */
+  if (new_val != w->old_rom[0])
+    {
+      tst_val = new_val ^ w->old_rom[0];
+      for (i = 0; i < 8; i++)
+	{
+	  if (tst_val & (1 << i))
+	    {
+	      ret = gpio_write(i, ((new_val >> i) & 0x01));
+	      if (ret == -1)
+	        return ret;
+	    } 
+	}
+      w->old_rom[0] = new_val;
+    }
+    
+  /* check gpio_dir */
+  new_val = (*prog)[0xe101];
+  tst_val = 0;
+  if (new_val != w->old_rom[1])
+    {
+      tst_val = new_val ^ w->old_rom[1];
+      for (i = 0; i < 8; i++)
+	{
+	  if (tst_val & (1 << i))
+	    {
+	      ret = gpio_dir(i, ((new_val >> i) & 0x01));
+	      if (ret == -1)
+	        return ret; 
+	    } 
+	}
+      w->old_rom[0] = new_val;
+    }
+
+  /* read in gpio */
+  ret = gpio_read();
+  if (ret == -1)
+    return ret;
+
+  (*prog)[0xe102] = ret;
+    
+#endif
 
   return 0;
 

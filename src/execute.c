@@ -891,7 +891,7 @@ swap (uint16_t op, run_state * state)
 }
 
 int
-execute (run_state * state, uint8_t ** prog, _win * w)
+execute (run_state * state, uint8_t ** prog, _rom * w)
 {
   uint16_t op, op2;
   int err = 0;

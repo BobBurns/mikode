@@ -6,8 +6,18 @@ int
 run (uint8_t ** prog)
 {
   int ret;
-  _win main_win;
+  _rom main_rom;
   run_state state = { 0 };
+  /* set up gpio */
+#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+  main_rom.old_rom = malloc (3);
+  ret = gpio_init();
+  if (ret == -1)
+    { 
+      free(main_rom.old_rom);
+      return ret;
+    }
+#endif
   /* set up ncurses windowing */
   initscr ();
   cbreak ();
@@ -16,16 +26,18 @@ run (uint8_t ** prog)
   keypad (stdscr, TRUE);
   noecho ();
   curs_set (0);
-  main_win.screen = newwin (SCR_MAXY, SCR_MAXX, 0, 0);
-  main_win.text = newwin (5, SCR_MAXX, SCR_MAXY + 1, 0);
-  main_win.old_win = malloc (SCR_MAXX * SCR_MAXY);
+  main_rom.screen = newwin (SCR_MAXY, SCR_MAXX, 0, 0);
+  main_rom.text = newwin (5, SCR_MAXX, SCR_MAXY + 1, 0);
+  main_rom.old_win = malloc (SCR_MAXX * SCR_MAXY);
 
-  ret = execute (&state, prog, &main_win);
+
+  ret = execute (&state, prog, &main_rom);
   getch ();
-  delwin (main_win.screen);
-  delwin (main_win.text);
+  delwin (main_rom.screen);
+  delwin (main_rom.text);
   endwin ();
-  free (main_win.old_win);
+  free (main_rom.old_win);
+  free (main_rom.old_rom);
   if (ret < 0)
     printf ("break received!");
   printf ("sreg %02x ip:%02x sp:%02x r0:%02x r1:%02x r2:%02x "

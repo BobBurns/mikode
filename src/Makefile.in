@@ -106,7 +106,7 @@ am_mikode_OBJECTS = mikode-main.$(OBJEXT) mikode-parse.$(OBJEXT) \
 	mikode-expression.$(OBJEXT) mikode-directive.$(OBJEXT) \
 	mikode-run.$(OBJEXT) mikode-load.$(OBJEXT) \
 	mikode-execute.$(OBJEXT) mikode-run_misc.$(OBJEXT) \
-	mikode-display.$(OBJEXT)
+	mikode-display.$(OBJEXT) mikode-pi_gpio.$(OBJEXT)
 mikode_OBJECTS = $(am_mikode_OBJECTS)
 mikode_LDADD = $(LDADD)
 mikode_LINK = $(CCLD) $(mikode_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
@@ -466,7 +466,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 mikode_CFLAGS = -g -Wall
-mikode_SOURCES = tinyexpr_bitw.h common.h instructions.h runheader.h main.c parse.c opcode.c operand.c token.c misc.c write.c tinyexpr_bitw.c expression.c directive.c run.c load.c execute.c run_misc.c display.c
+mikode_SOURCES = tinyexpr_bitw.h common.h instructions.h runheader.h main.c parse.c opcode.c operand.c token.c misc.c write.c tinyexpr_bitw.c expression.c directive.c run.c load.c execute.c run_misc.c display.c pi_gpio.c
 check_SCRIPTS = asmcheck.sh
 TESTS = $(check_SCRIPTS)
 CLEANFILES = asmcheck.sh example1.asm example1 example1.asm.list
@@ -566,6 +566,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-opcode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-operand.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-parse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-pi_gpio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-run.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-run_misc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikode-tinyexpr_bitw.Po@am__quote@
@@ -795,6 +796,20 @@ mikode-display.obj: display.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='display.c' object='mikode-display.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -c -o mikode-display.obj `if test -f 'display.c'; then $(CYGPATH_W) 'display.c'; else $(CYGPATH_W) '$(srcdir)/display.c'; fi`
+
+mikode-pi_gpio.o: pi_gpio.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -MT mikode-pi_gpio.o -MD -MP -MF $(DEPDIR)/mikode-pi_gpio.Tpo -c -o mikode-pi_gpio.o `test -f 'pi_gpio.c' || echo '$(srcdir)/'`pi_gpio.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mikode-pi_gpio.Tpo $(DEPDIR)/mikode-pi_gpio.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pi_gpio.c' object='mikode-pi_gpio.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -c -o mikode-pi_gpio.o `test -f 'pi_gpio.c' || echo '$(srcdir)/'`pi_gpio.c
+
+mikode-pi_gpio.obj: pi_gpio.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -MT mikode-pi_gpio.obj -MD -MP -MF $(DEPDIR)/mikode-pi_gpio.Tpo -c -o mikode-pi_gpio.obj `if test -f 'pi_gpio.c'; then $(CYGPATH_W) 'pi_gpio.c'; else $(CYGPATH_W) '$(srcdir)/pi_gpio.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mikode-pi_gpio.Tpo $(DEPDIR)/mikode-pi_gpio.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pi_gpio.c' object='mikode-pi_gpio.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(mikode_CFLAGS) $(CFLAGS) -c -o mikode-pi_gpio.obj `if test -f 'pi_gpio.c'; then $(CYGPATH_W) 'pi_gpio.c'; else $(CYGPATH_W) '$(srcdir)/pi_gpio.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
