@@ -37,7 +37,9 @@ run (uint8_t ** prog)
   delwin (main_rom.text);
   endwin ();
   free (main_rom.old_win);
+#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
   free (main_rom.old_rom);
+#endif
   if (ret < 0)
     printf ("break received!");
   printf ("sreg %02x ip:%02x sp:%02x r0:%02x r1:%02x r2:%02x "
