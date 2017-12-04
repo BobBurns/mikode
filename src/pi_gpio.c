@@ -17,13 +17,7 @@ gpio_init()
   char buffer[3];
   ssize_t bytes_written;
   int fd, i;
-  /* make sure gpio is unexported first */
-  if ((gpio_close()) == -1)
-    { 
-      fprintf(stderr, "could not init gpio...\n");
-      return -1;
-    }
-
+  /* TODO make sure gpio is unexported first */
 
   /* open each indidividually */
   for (i = 0; i < 8; i++)
