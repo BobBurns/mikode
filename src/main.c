@@ -12,9 +12,9 @@
  */
 #include "common.h"
 #include <getopt.h>
+#include "../config.h"
 
 static int usage_flag;
-char *version = "Mikode - 1.0.2";
 
 int
 usage ()
@@ -41,7 +41,7 @@ print_help ()
 int
 print_version ()
 {
-  printf ("\n%s\n", version);
+  printf ("\nMikode - %s\n", VERSION);
   printf ("Copyright (C) 2017  Bob Burns\n"
 	  "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n"
 	  "This is free software: you are free to change and redistribute it.\n"

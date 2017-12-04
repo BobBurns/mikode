@@ -1,4 +1,5 @@
 #include "runheader.h"
+#include "../config.h"
 #include <time.h>		/* for rand seed */
 
 int show_reg = 0;
