@@ -7,6 +7,7 @@ run (uint8_t ** prog, int usage_flag)
   _rom main_rom;
   run_state state = { 0 };
   /* set up gpio */
+#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
   if (usage_flag == 3)
     {
       main_rom.old_rom = malloc (3);
@@ -18,6 +19,7 @@ run (uint8_t ** prog, int usage_flag)
           return ret;
         }
     }
+#endif
   /* set up ncurses windowing */
   initscr ();
   cbreak ();
@@ -37,10 +39,16 @@ run (uint8_t ** prog, int usage_flag)
   delwin (main_rom.text);
   endwin ();
   free (main_rom.old_win);
+#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
   if (main_rom.gpio_rom == 1)
     {
       free (main_rom.old_rom);
+      if ((gpio_close()) == -1)
+	{ 
+	  printf("could not unexport gpio\n");
+	}
     }
+#endif
   if (ret < 0)
     printf ("break received!");
   printf ("sreg %02x ip:%02x sp:%02x r0:%02x r1:%02x r2:%02x "

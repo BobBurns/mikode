@@ -6,7 +6,7 @@ int
 run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 {
   /* scan screen data space and print character to screen */
-  int i, ch, r, ret;
+  int i, ch, r;
   uint8_t key;
   char *reg_str;
   for (i = 0; i < (SCR_MAXX * SCR_MAXY); i++)
@@ -92,6 +92,9 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 
   /* gpio */
 
+
+#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+  int ret;
   if (w->gpio_rom == 1)
     {
       uint8_t new_val = (*prog)[0xe100];
@@ -137,6 +140,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 
       (*prog)[0xe102] = ret;
     }
+#endif
     
   return 0;
 

@@ -31,6 +31,7 @@ gpio_init()
       if ((write(fd, buffer, bytes_written)) == -1) 
 	{
 	  close(fd);
+	  fprintf(stderr, "write to /sys/class/gpio/export failed\n");
 	  return -1;
 	}
 	

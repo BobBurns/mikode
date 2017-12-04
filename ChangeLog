@@ -1,3 +1,11 @@
+2017-12-04 Bob Burns <reburns@protonmail.com>
+
+** adding support for raspberry pi gpio.  Should
+probably started a new branch.  configure.ac checks for 
+/opt/vc/include/bcm_host.h now.  mikode takes
+--gpio or -g arguement to run with gpio. Note:
+this slows down execution considerably
+
 2017-12-02 Bob Burns <reburns@protonmail.com>
 
 ** reformating for gnu standard using indent

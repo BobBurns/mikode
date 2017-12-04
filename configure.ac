@@ -16,6 +16,7 @@ AC_CHECK_LIB([m], [pow])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h limits.h stdint.h stdlib.h string.h unistd.h getopt.h])
+AC_CHECK_HEADERS(/opt/vc/include/bcm_host.h)
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_INT16_T

@@ -132,6 +132,7 @@ compile (char *filename)
   int count = 0;
   ssize_t nread;
   FILE *input_file;
+  /* c must be int for arm pi EOF */
   int c;
 
   /* get number lines to allocate line structs */
