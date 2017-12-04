@@ -132,7 +132,7 @@ compile (char *filename)
   int count = 0;
   ssize_t nread;
   FILE *input_file;
-  char c;
+  int c;
 
   /* get number lines to allocate line structs */
   if (strcmp(filename + (strlen(filename) - 4), ".asm") != 0)
