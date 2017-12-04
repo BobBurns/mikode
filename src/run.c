@@ -1,4 +1,5 @@
 #include "runheader.h"
+#include "../config.h"
 
 int
 run (uint8_t ** prog, int usage_flag)
