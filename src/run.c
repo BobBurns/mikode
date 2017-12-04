@@ -1,15 +1,16 @@
 #include "runheader.h"
 
 int
-run (uint8_t ** prog)
+run (uint8_t ** prog, int usage_flag)
 {
   int ret;
   _rom main_rom;
   run_state state = { 0 };
   /* set up gpio */
-  if (rpi)
+  if (usage_flag == 3)
     {
       main_rom.old_rom = malloc (3);
+      main_rom.gpio_rom = 1;
       ret = gpio_init();
       if (ret == -1)
         { 
@@ -36,7 +37,7 @@ run (uint8_t ** prog)
   delwin (main_rom.text);
   endwin ();
   free (main_rom.old_win);
-  if (rpi)
+  if (main_rom.gpio_rom == 1)
     {
       free (main_rom.old_rom);
     }
@@ -62,7 +63,7 @@ run (uint8_t ** prog)
 }
 
 int
-run_main (char *exec)
+run_main (char *exec, int usage_flag)
 {
   int ret;
 
@@ -71,12 +72,7 @@ run_main (char *exec)
   if (ret < 0)
     return -1;
 
-  if (access("/sys/class/gpio/export", F_OK) == -1)
-	  rpi = 0;
-  else
-	  rpi = 1;
-
-  ret = run (&prog);
+  ret = run (&prog, usage_flag);
   if (ret < 0)
     {
       fprintf (stderr, "errors..\n");

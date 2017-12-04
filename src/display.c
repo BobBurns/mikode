@@ -92,7 +92,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 
   /* gpio */
 
-  if (rpi)
+  if (w->gpio_rom == 1)
     {
       uint8_t new_val = (*prog)[0xe100];
       uint8_t tst_val = 0;

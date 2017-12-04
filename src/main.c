@@ -62,10 +62,11 @@ main (int argc, char **argv)
 	{"version", no_argument, &usage_flag, 1},
 	{"help", no_argument, &usage_flag, 2},
 	{"run", no_argument, 0, 'r'},
+	{"pi", no_argument, &usage_flag, 3},
 	{0, 0, 0, 0}
       };
       int option_index = 0;
-      c = getopt_long (argc, argv, "r", long_options, &option_index);
+      c = getopt_long (argc, argv, "rp", long_options, &option_index);
 
       if (c == -1)
 	break;
@@ -87,6 +88,9 @@ main (int argc, char **argv)
 	case 'r':
 	  run = 1;
 	  break;
+	case 'p':
+	  usage_flag = 3;
+	  break;
 	default:
 	  usage ();
 	  exit (-1);
@@ -102,7 +106,7 @@ main (int argc, char **argv)
   filename = strndup (argv[optind], strlen (argv[optind]));
 
   if (run)
-    ret = run_main (filename);
+    ret = run_main (filename, usage_flag);
   else
     ret = compile (filename);
 
