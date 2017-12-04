@@ -9,6 +9,7 @@
 
 
 static int pin_map[8] = { 6, 13, 19, 26, 12, 16, 20, 21 };
+int gpio_close();
 
 int
 gpio_init()
@@ -16,6 +17,13 @@ gpio_init()
   char buffer[3];
   ssize_t bytes_written;
   int fd, i;
+  /* make sure gpio is unexported first */
+  if ((gpio_close()) == -1)
+    { 
+      fprintf(stderr, "could not init gpio...\n");
+      return -1;
+    }
+
 
   /* open each indidividually */
   for (i = 0; i < 8; i++)
