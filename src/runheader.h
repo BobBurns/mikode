@@ -55,6 +55,9 @@ typedef struct{
 	uint8_t *old_rom;
 }_rom;
 
+/* define rpi to compile for raspberry pi gpio */
+int rpi;
+
 int load(char *, uint8_t **); 
 int execute(run_state *, uint8_t **, _rom *);
 int check_zsnf(uint8_t , run_state *);
@@ -69,5 +72,5 @@ int run_io(uint16_t, run_state *, uint8_t **, _rom *);
 int gpio_init();
 int gpio_close();
 int gpio_direction(int, int);
-uint8_t gpio_read(int);
+uint8_t gpio_read();
 int gpio_write(int, int);

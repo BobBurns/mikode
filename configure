@@ -4482,31 +4482,6 @@ fi
 
 done
 
-as_ac_File=`$as_echo "ac_cv_file_"/sys/class/gpio/export"" | $as_tr_sh`
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for \"/sys/class/gpio/export\"" >&5
-$as_echo_n "checking for \"/sys/class/gpio/export\"... " >&6; }
-if eval \${$as_ac_File+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  test "$cross_compiling" = yes &&
-  as_fn_error $? "cannot check for file existence when cross compiling" "$LINENO" 5
-if test -r ""/sys/class/gpio/export""; then
-  eval "$as_ac_File=yes"
-else
-  eval "$as_ac_File=no"
-fi
-fi
-eval ac_res=\$$as_ac_File
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-if eval test \"x\$"$as_ac_File"\" = x"yes"; then :
-
-cat >>confdefs.h <<_ACEOF
-#define `$as_echo "HAVE_"/sys/class/gpio/export"" | $as_tr_cpp` 1
-_ACEOF
-
-fi
-
 
 # Checks for typedefs, structures, and compiler characteristics.
 ac_fn_c_find_intX_t "$LINENO" "16" "ac_cv_c_int16_t"

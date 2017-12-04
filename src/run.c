@@ -1,7 +1,4 @@
 #include "runheader.h"
-#include "../config.h"
-
-
 
 int
 run (uint8_t ** prog)
@@ -10,15 +7,16 @@ run (uint8_t ** prog)
   _rom main_rom;
   run_state state = { 0 };
   /* set up gpio */
-#ifdef HAVE_SYS_CLASS_GPIO_EXPORT
-  main_rom.old_rom = malloc (3);
-  ret = gpio_init();
-  if (ret == -1)
-    { 
-      free(main_rom.old_rom);
-      return ret;
+  if (rpi)
+    {
+      main_rom.old_rom = malloc (3);
+      ret = gpio_init();
+      if (ret == -1)
+        { 
+          free(main_rom.old_rom);
+          return ret;
+        }
     }
-#endif
   /* set up ncurses windowing */
   initscr ();
   cbreak ();
@@ -38,9 +36,10 @@ run (uint8_t ** prog)
   delwin (main_rom.text);
   endwin ();
   free (main_rom.old_win);
-#ifdef HAVE_SYS_CLASS_GPIO_EXPORT
-  free (main_rom.old_rom);
-#endif
+  if (rpi)
+    {
+      free (main_rom.old_rom);
+    }
   if (ret < 0)
     printf ("break received!");
   printf ("sreg %02x ip:%02x sp:%02x r0:%02x r1:%02x r2:%02x "
@@ -72,6 +71,10 @@ run_main (char *exec)
   if (ret < 0)
     return -1;
 
+  if (access("/sys/class/gpio/export", F_OK) == -1)
+	  rpi = 0;
+  else
+	  rpi = 1;
 
   ret = run (&prog);
   if (ret < 0)

@@ -1,5 +1,4 @@
 #include "runheader.h"
-#include "../config.h"
 #include <time.h>		/* for rand seed */
 
 int show_reg = 0;
@@ -7,7 +6,7 @@ int
 run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 {
   /* scan screen data space and print character to screen */
-  int i, ch, r;
+  int i, ch, r, ret;
   uint8_t key;
   char *reg_str;
   for (i = 0; i < (SCR_MAXX * SCR_MAXY); i++)
@@ -93,53 +92,52 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 
   /* gpio */
 
-#ifdef HAVE_SYS_CLASS_GPIO_EXPORT
-
-  uint8_t new_val = (*prog)[0xe100];
-  uint8_t tst_val = 0;
-  /* check gpio_out */
-  if (new_val != w->old_rom[0])
+  if (rpi)
     {
-      tst_val = new_val ^ w->old_rom[0];
-      for (i = 0; i < 8; i++)
-	{
-	  if (tst_val & (1 << i))
-	    {
-	      ret = gpio_write(i, ((new_val >> i) & 0x01));
-	      if (ret == -1)
-	        return ret;
-	    } 
-	}
-      w->old_rom[0] = new_val;
-    }
+      uint8_t new_val = (*prog)[0xe100];
+      uint8_t tst_val = 0;
+      /* check gpio_out */
+      if (new_val != w->old_rom[0])
+        {
+          tst_val = new_val ^ w->old_rom[0];
+          for (i = 0; i < 8; i++)
+    	    {
+	      if (tst_val & (1 << i))
+	        {
+	          ret = gpio_write(i, ((new_val >> i) & 0x01));
+	          if (ret == -1)
+	            return ret;
+	        } 
+	    }
+          w->old_rom[0] = new_val;
+        }
     
-  /* check gpio_dir */
-  new_val = (*prog)[0xe101];
-  tst_val = 0;
-  if (new_val != w->old_rom[1])
-    {
-      tst_val = new_val ^ w->old_rom[1];
-      for (i = 0; i < 8; i++)
-	{
-	  if (tst_val & (1 << i))
+      /* check gpio_dir */
+      new_val = (*prog)[0xe101];
+      tst_val = 0;
+      if (new_val != w->old_rom[1])
+        {
+          tst_val = new_val ^ w->old_rom[1];
+          for (i = 0; i < 8; i++)
 	    {
-	      ret = gpio_dir(i, ((new_val >> i) & 0x01));
-	      if (ret == -1)
-	        return ret; 
-	    } 
-	}
-      w->old_rom[0] = new_val;
-    }
+	      if (tst_val & (1 << i))
+	        {
+	          ret = gpio_direction(i, ((new_val >> i) & 0x01));
+	          if (ret == -1)
+	            return ret; 
+	        } 
+	    }
+              w->old_rom[0] = new_val;
+        }
 
   /* read in gpio */
-  ret = gpio_read();
-  if (ret == -1)
-    return ret;
+      ret = gpio_read();
+      if (ret == -1)
+        return ret;
 
-  (*prog)[0xe102] = ret;
+      (*prog)[0xe102] = ret;
+    }
     
-#endif
-
   return 0;
 
 }

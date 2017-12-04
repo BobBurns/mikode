@@ -96,7 +96,7 @@ gpio_direction(int pin, int dir)
 }
  
 uint8_t
-gpio_read(int pin)
+gpio_read()
 {
 #define VALUE_MAX 30
   char path[VALUE_MAX];
@@ -107,7 +107,7 @@ gpio_read(int pin)
   for (i = 0; i < 8; i++)
     {
 
-      snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin_map[pin]);
+      snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin_map[i]);
       fd = open(path, O_RDONLY);
       if (-1 == fd)
 	{
