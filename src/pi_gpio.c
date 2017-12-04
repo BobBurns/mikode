@@ -21,7 +21,7 @@ gpio_init()
   for (i = 0; i < 8; i++)
     {
 
-      fd = open("sys/class/gpio/export", O_WRONLY);
+      fd = open("/sys/class/gpio/export", O_WRONLY);
       if (fd == -1)
 	{
 	  fprintf(stderr, "Failed to open export for writing!\n");
@@ -51,7 +51,7 @@ gpio_close()
   for (i = 0; i < 8; i++)
     {
 
-      fd = open("sys/class/gpio/unexport", O_WRONLY);
+      fd = open("/sys/class/gpio/unexport", O_WRONLY);
       if (fd == -1)
 	{
 	  fprintf(stderr, "Failed to open export for writing!\n");

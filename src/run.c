@@ -9,7 +9,7 @@ run (uint8_t ** prog)
   _rom main_rom;
   run_state state = { 0 };
   /* set up gpio */
-#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+#ifdef HAVE_SYS_CLASS_GPIO_EXPORT
   main_rom.old_rom = malloc (3);
   ret = gpio_init();
   if (ret == -1)
@@ -37,7 +37,7 @@ run (uint8_t ** prog)
   delwin (main_rom.text);
   endwin ();
   free (main_rom.old_win);
-#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+#ifdef HAVE_SYS_CLASS_GPIO_EXPORT
   free (main_rom.old_rom);
 #endif
   if (ret < 0)

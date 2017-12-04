@@ -92,7 +92,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 
   /* gpio */
 
-#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+#ifdef HAVE_SYS_CLASS_GPIO_EXPORT
 
   uint8_t new_val = (*prog)[0xe100];
   uint8_t tst_val = 0;
