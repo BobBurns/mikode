@@ -1,0 +1,30 @@
+.TH MIKODE 1
+.SH NAME
+mikode \- compile and execute faux assembly language.
+.SH SYNOPSIS
+.B mikode
+[\fB\-r\fR]
+[\fB\-g\fR]
+[\fB\-s\fR \fITIME\fR]
+[\fB\-\-run\fR]
+[\fB\-\-gpio\fR]
+[\fB\-\-sleep\fR \fITIME\fR]
+.IR file
+.SH DESCRIPTION
+.B mikode
+learn low level programming concepts by writing mikode assembly 
+language and manipulating characters on the screen.  Use with a 
+raspberry pi and manipulate gpio.
+.SH OPTIONS
+.TP
+.BR \-r ", "\-\-run\fR
+Execute a compiled program
+.TP
+.BR \-g ", "\-\-gpio\fR
+Use Rasberry Pi GPIO. This allows the program to scan special
+registers 0xe100 (output), 0xe101 (direction), 0xe102 (input).
+See examples/blink.asm for more.
+.TP
+.BR \-s ", "\-\-sleep=\fIMICROSECONDS\fR
+Set time to sleep between instruction cycles. Default is 1000.
+

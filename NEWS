@@ -1,5 +1,8 @@
 Mikode NEWS - User visible changes.
 
+** New test release 1.1.0 
+   GPIO output working with blink.asm 
+
 ** Update to 1.0.1 
    Change to one command with option to -r --run
 

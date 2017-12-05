@@ -34,7 +34,11 @@ Then, in the mikode directory
 
 `sudo make install`
 
-Currently, Mikode has been tested on Ubuntu Linux. It should run on any Debian based Linux distro.
+Currently, Mikode has been tested on Ubuntu and Raspbian Linux. It should run on any Debian based Linux distro.
+
+## Usage
+
+**mikode** \[-rg\] \[-s\] \[--run\] \[--gpio\] \[--sleep\] file
 
 ## Example
 
@@ -127,6 +131,20 @@ For a more complex example see snake.asm
 **Key in**
 
 0xe000  Load from this address to get key input
+
+**GPIO**
+
+Requires root. Works with the Raspberry Pi A+,B+,2B,3B
+
+Register bits correspond to gpio 6, 13, 19, 26, 12, 16, 20, 21
+ 
+0xe100 - output
+
+0xe101 - set direction
+
+0xe102 - input
+
+See examples/blink.asm
 
 **Random**
 

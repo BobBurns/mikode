@@ -42,6 +42,12 @@ to build with './configure; make' and then 'sudo make install'
 
 -----
 
+Usage
+
+mikode [-rg] [-s] [--run] [--gpio] [--sleep] file
+
+-----
+
 Examples
 
 Checkout the examples directory and compile example1.asm with
@@ -68,6 +74,17 @@ Screen Rom
 
 Key in
 0xe000  Load from this address to get key input
+
+GPIO
+Requires root. Works with the Raspberry Pi A+,B+,2B,3B
+
+Register bits correspond to gpio 6, 13, 19, 26, 12, 16, 20, 21
+ 
+0xe100 - output
+0xe101 - set direction
+0xe102 - input
+
+See examples/blink.asm
 
 Random
 0xe004 - 0xe007  Random int value every cycle
