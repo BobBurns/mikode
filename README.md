@@ -38,7 +38,7 @@ Currently, Mikode has been tested on Ubuntu and Raspbian Linux. It should run on
 
 ## Usage
 
-**mikode** \[-rg\] \[-s\] \[--run\] \[--gpio\] \[--sleep\] file
+`mikode [-rg] [-s] [--run] [--gpio] \[--sleep=TIME] file`
 
 ## Example
 
