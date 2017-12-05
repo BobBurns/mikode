@@ -38,7 +38,7 @@ Currently, Mikode has been tested on Ubuntu and Raspbian Linux. It should run on
 
 ## Usage
 
-`mikode [-rg] [-s] [--run] [--gpio] \[--sleep=TIME] file`
+`mikode [-rg] [-s] [--run] [--gpio] [--sleep=TIME] file`
 
 ## Example
 
@@ -126,7 +126,7 @@ For a more complex example see snake.asm
 
 **Screen Rom**
 
-0xc000 - 0xd800  Set to 128 (0x80) by 48 (0x30)
+0xc000 - 0xd400  Set to 128 (0x80) by 40 (0x28)
 
 **Key in**
 
