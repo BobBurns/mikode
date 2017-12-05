@@ -14,6 +14,11 @@ run (uint8_t ** prog, int usage_flag)
 #ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
   if (usage_flag == 3)
     {
+      if (getuid() != 0)
+        {
+          fprintf(stderr, "must run as root for gpio access!\n");
+          return -1;
+        }
       main_rom.old_rom = malloc (3);
       main_rom.gpio_rom = 1;
       ret = gpio_init();
