@@ -71,7 +71,7 @@ main (int argc, char **argv)
 	{0, 0, 0, 0}
       };
       int option_index = 0;
-      c = getopt_long (argc, argv, "rps:", long_options, &option_index);
+      c = getopt_long (argc, argv, "rgs:", long_options, &option_index);
 
       if (c == -1)
 	break;

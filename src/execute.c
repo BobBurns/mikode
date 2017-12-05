@@ -1179,7 +1179,10 @@ execute (run_state * state, uint8_t ** prog, _rom * w)
       usleep (sleep_v);
       /* sleep ? */
       if (err < 0)
-	break;
+        {
+          fprintf(stderr, "runio error\n");
+	  break;
+        }
 #if DEBUG
       clock_t end = clock ();
       double time_spent = (double) (end - begin) / CLOCKS_PER_SEC;

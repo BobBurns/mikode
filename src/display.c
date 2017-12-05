@@ -134,7 +134,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 	            return ret; 
 	        } 
 	    }
-              w->old_rom[0] = new_val;
+              w->old_rom[1] = new_val;
         }
 
   /* read in gpio */
