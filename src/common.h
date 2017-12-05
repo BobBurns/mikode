@@ -101,7 +101,7 @@ int compile(char *);
 int get_expr(line *, int16_t *, char **);
 int get_org(line *, char *);
 int get_patch_label(char *, char **);
-int run_main (char*, int);
+int run_main (char*, int, int);
 int getopcode(line *, char *);
 
 int equate_count;

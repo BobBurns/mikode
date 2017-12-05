@@ -12,14 +12,17 @@
  */
 #include "common.h"
 #include <getopt.h>
-#include "../config.h"
+
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#endif
 
 static int usage_flag;
 
 int
 usage ()
 {
-  printf ("Usage: mikode [-r] <input file>\n");
+  printf ("Usage: mikode [-rgs] <input file>\n");
   return 0;
 }
 
@@ -55,6 +58,7 @@ main (int argc, char **argv)
   int c;
   int ret, run = 0;
   char *filename;
+  int sleep_v = 100000;
 
   while (1)
     {
@@ -62,11 +66,12 @@ main (int argc, char **argv)
 	{"version", no_argument, &usage_flag, 1},
 	{"help", no_argument, &usage_flag, 2},
 	{"run", no_argument, 0, 'r'},
-	{"pi", no_argument, &usage_flag, 3},
+	{"gpio", no_argument, &usage_flag, 3},
+	{"sleep", required_argument, 0, 's'},
 	{0, 0, 0, 0}
       };
       int option_index = 0;
-      c = getopt_long (argc, argv, "rp", long_options, &option_index);
+      c = getopt_long (argc, argv, "rps:", long_options, &option_index);
 
       if (c == -1)
 	break;
@@ -88,8 +93,11 @@ main (int argc, char **argv)
 	case 'r':
 	  run = 1;
 	  break;
-	case 'p':
+	case 'g':
 	  usage_flag = 3;
+	  break;
+	case 's':
+	  sleep_v = atoi(optarg);
 	  break;
 	default:
 	  usage ();
@@ -106,7 +114,7 @@ main (int argc, char **argv)
   filename = strndup (argv[optind], strlen (argv[optind]));
 
   if (run)
-    ret = run_main (filename, usage_flag);
+    ret = run_main (filename, usage_flag, sleep_v);
   else
     ret = compile (filename);
 

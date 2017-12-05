@@ -1,6 +1,9 @@
 #include "runheader.h"
-#include "../config.h"
 #include <time.h>		/* for rand seed */
+
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#endif
 
 int show_reg = 0;
 int

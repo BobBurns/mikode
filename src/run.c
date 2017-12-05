@@ -1,5 +1,8 @@
 #include "runheader.h"
-#include "../config.h"
+
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#endif
 
 int
 run (uint8_t ** prog, int usage_flag)
@@ -72,11 +75,12 @@ run (uint8_t ** prog, int usage_flag)
 }
 
 int
-run_main (char *exec, int usage_flag)
+run_main (char *exec, int usage_flag, int slp_v)
 {
   int ret;
 
   uint8_t *prog;
+  sleep_v = slp_v;
   ret = load (exec, &prog);
   if (ret < 0)
     return -1;

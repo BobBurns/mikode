@@ -1176,7 +1176,7 @@ execute (run_state * state, uint8_t ** prog, _rom * w)
          state->reg[8], state->reg[9], state->reg[10], state->reg[11], 
          state->reg[12], state->reg[13], state->reg[14], state->reg[15]);
        */
-      usleep (1000);
+      usleep (sleep_v);
       /* sleep ? */
       if (err < 0)
 	break;

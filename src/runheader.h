@@ -55,6 +55,7 @@ typedef struct{
 	uint8_t *old_rom;
 }_rom;
 
+int sleep_v;
 
 int load(char *, uint8_t **); 
 int execute(run_state *, uint8_t **, _rom *);
