@@ -54,7 +54,7 @@ drbotlp:
 	Return
 inits:
 ;delay time
-	LoadImm		dreg,0x80
+	LoadImm		dreg,0x31
 	LoadImm		xL,0x02
 	LoadImm		xH,0x01
 	LoadImm		temp,2 ;start direction
@@ -171,7 +171,7 @@ chkapcol:
 	Increment	count
 	Increment	count
 	StoreIndX	X,count
-	LoadImm		temp,0x10
+	LoadImm		temp,0x05
 	Subtract	dreg,temp
 	BranchCarryClr	apcolcnt
 	LoadImm		dreg,1

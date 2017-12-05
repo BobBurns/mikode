@@ -58,7 +58,7 @@ main (int argc, char **argv)
   int c;
   int ret, run = 0;
   char *filename;
-  int sleep_v = 100000;
+  int sleep_v = 1000;
 
   while (1)
     {

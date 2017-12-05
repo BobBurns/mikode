@@ -31,7 +31,7 @@
 #define I (uint8_t)0b10000000
 
 #define SCR_OFF 0xc000
-#define SCR_MAXX 0x64
+#define SCR_MAXX 0x80
 #define SCR_MAXY 0x28
 
 /* for gpio */
