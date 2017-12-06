@@ -47,11 +47,9 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
       wclear (w->text);
       wrefresh (w->text);
     }
-  else if (ch == KEY_F (3))
+  else if (ch == KEY_F (3) || ch == 3)
+    /* handle ^c */
     {
-      /* break */
-      wprintw (w->text, "break. press any key");
-      getch ();
       return -1;
     }
   else if (ch == KEY_F (4))

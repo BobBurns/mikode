@@ -31,7 +31,10 @@ run (uint8_t ** prog, int usage_flag)
 #endif
   /* set up ncurses windowing */
   initscr ();
+  /* capture control c to unexport gpio when exiting */
   cbreak ();
+  raw();
+
   refresh ();
   nodelay (stdscr, TRUE);
   keypad (stdscr, TRUE);
