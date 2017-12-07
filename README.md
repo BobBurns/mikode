@@ -195,14 +195,12 @@ F4 - stop/start execution
 
 ------------------------------------------------
 
-## Ideas
 
-Implement address space that interfaces with Raspberry Pi GPIO
+## Documentation and Package
 
+Instruction Set at
 
-More at ...
-
-[Mikode Docs](https://github.com/BobBurns/mikode/wiki)
+[mikode/wiki](https://github.com/BobBurns/mikode/wiki)
 
 Tarball available at
 

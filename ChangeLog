@@ -1,3 +1,9 @@
+2017-12-06 Bob Burns <reburns@protonmail.com>
+
+** change error to print line nuber in decimal
+not hex.  Added example hkstr.asm to examples for
+hackster.io page. still needs testing on Pi`
+
 2017-12-05 Bob Burns <reburns@protonmail.com>
 
 * Release version 1.1.0 Revising readme and man page

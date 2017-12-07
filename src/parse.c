@@ -202,7 +202,7 @@ compile (char *filename)
       ret = parse (&in[i], &dp, line_buf);
       if (ret == -1)
 	{
-	  fprintf (stderr, "Error around line %04x\n", i + 1);
+	  fprintf (stderr, "Error around line %04d\n", i + 1);
 	  goto fatal;
 	}
       /* copy text */
