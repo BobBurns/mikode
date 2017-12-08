@@ -1,4 +1,4 @@
-; blinking an led with mikode and reading
+; blinking an led and reading gpio 26
 ;
 ; special rom address
 ; screen rom 0xc000
@@ -19,35 +19,36 @@
 ;
 ; defs
 .def temp = r9
-        LoadImm         r10,0x00
-        StoreDirect     0xe101,r10      ; default setting all pins in
-        LoadImm         r10,0x04
-        StoreDirect     0xe101,r10      ; set direction out on gpio21
-loop:
-        LoadImm         temp,0x80
-        StoreDirect     0xe100,temp       ; set pin high
-        Call            delay
-        LoadImm         r9,0x00
-        StoreDirect     0xe100,r9       ; set pin low
-        Call            delay
-        Jump            loop            ; loop indefinetly 
-; press F3 to exit
+	LoadImm		r10,0x08
+	StoreDirect	0xe101,r10 ; toggle pin to set input
+	LoadImm		r10,0x00
+	StoreDirect 	0xe101,r10 ; set direction input gpio26
+	LoadImm		r10,0x04
+	StoreDirect	0xe101,r10 ; set direction output gpio19
+loop:	
+	LoadImm		temp,0x04
+	StoreDirect	0xe100,temp
+	Call		delay
+	LoadImm		temp,0x00
+	StoreDirect	0xe100,temp
+	Call		delay
+	Jump		loop
 delay:
-        LoadImm         r0,0x40
-dlp:    
-        Call            read            ; check input pin during delay
-        Decrement       r0  
-        BranchNotEqu    dlp 
-        Return
+	LoadImm		r0,0x40
+dlp:
+	Call		read
+	Decrement	r0
+	BranchNotEqu	dlp
+	Return
 read:
-; check input
-        LoadDirect      temp,0xe102
-        CompareImm      temp,1
-        BranchEqu       putx
-        LoadImm         temp,' '
-        Jump            cont
-putx:   LoadImm         temp,'X'
+	LoadDirect	temp,0xe102 ;read pin during delay loop
+	CompareImm	temp,1
+	BranchEqu	putx
+	LoadImm		temp,' '
+	Jump		cont
+putx:
+	LoadImm		temp,'X'
 cont:
-        StoreDirect     0xc000,temp
-        Return
-
+	StoreDirect	0xc540,temp ; should be middle of the screen
+	Return
+	
