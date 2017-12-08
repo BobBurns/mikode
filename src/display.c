@@ -107,7 +107,8 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
           tst_val = new_val ^ w->old_rom[0];
           for (i = 0; i < 8; i++)
     	    {
-	      if (tst_val & (1 << i))
+	    /* check if direction is set to output as well */
+	      if ((tst_val & (1 << i)) && (dir_val & (1 << i)))
 	        {
 	          ret = gpio_write(i, ((new_val >> i) & 0x01));
 	          if (ret == -1)
