@@ -29,9 +29,13 @@ loop:
 	LoadImm		temp,0x04
 	StoreDirect	0xe100,temp
 	Call		delay
+	LoadDirect	r2,0xe101 ; checking dir value
+	LoadDirect	r3,0xe102 ; checking in value
 	LoadImm		temp,0x00
 	StoreDirect	0xe100,temp
 	Call		delay
+	LoadDirect	r2,0xe101
+	LoadDirect	r3,0xe102
 	Jump		loop
 delay:
 	LoadImm		r0,0x40
@@ -42,7 +46,7 @@ dlp:
 	Return
 read:
 	LoadDirect	temp,0xe102 ;read pin during delay loop
-	CompareImm	temp,1
+	AndImm		temp,0x08
 	BranchEqu	putx
 	LoadImm		temp,' '
 	Jump		cont

@@ -100,6 +100,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
   if (w->gpio_rom == 1)
     {
       uint8_t new_val = (*prog)[0xe100];
+      uint8_t dir_val = (*prog)[0xe101];
       uint8_t tst_val = 0;
       /* check gpio_out */
       if (new_val != w->old_rom[0])
