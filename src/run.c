@@ -76,6 +76,7 @@ run (uint8_t ** prog, int usage_flag)
   for (x = 0xff00; x; x += 1)
     printf ("%02x ", (*prog)[x]);
   printf ("\n");
+  printf ("op: %x %x\n", (*prog)[state.ip], (*prog)[state.ip+1]);
 
   printf ("done\n");
   return 0;

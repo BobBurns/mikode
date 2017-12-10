@@ -1146,7 +1146,7 @@ execute (run_state * state, uint8_t ** prog, _rom * w)
 	{
 	  err = sub (op, state);
 	}
-      else if (IMM_MSK (op) == 0x6000)
+      else if (IMM_MSK (op) == 0x5000)
 	{
 	  err = subi (op, state);
 	}
@@ -1156,14 +1156,16 @@ execute (run_state * state, uint8_t ** prog, _rom * w)
 	}
       else
 	{
-	  printf ("didn't recognize op: %02x\n", op);
+	  fprintf (stderr, "didn't recognize op: %02x\n", op);
 	  break;
 	}
 
       /* scan screen addresses and display */
       /* print reg sreg ip */
-      if (err > 0)
-	break;
+      if (err > 0) {
+	  printf("error > 0\n");
+	  break;
+      }
       err = run_io (op, state, prog, w);
 
       /*

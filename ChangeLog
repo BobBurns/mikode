@@ -1,3 +1,8 @@
+2017-12-09 Bob Burns <reburns@protonmail.com>
+
+** fixed bug in execute.c SubtractImm wrong opcode
+0x5000 not 0x6000
+
 2017-12-06 Bob Burns <reburns@protonmail.com>
 
 ** change error to print line nuber in decimal
