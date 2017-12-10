@@ -26,6 +26,12 @@ If you dont have libncurses installed:
 
 `sudo apt install libncurses-dev`
 
+You can build mikode in one of two ways.
+
+If you have autotools, you can generate the configure script
+
+`autoreconf -i`
+
 Then, in the mikode directory
 
 `./configure`
@@ -33,6 +39,17 @@ Then, in the mikode directory
 `make all check`
 
 `sudo make install`
+
+If you *do not* have autotools, you'll need to download the source and build it that way
+
+```
+$ wget http://people.ucsc.edu/~reburns/downloads/mikode-1.1.0.tar.gz
+$ gzip -cd mikode-1.1.0.tar.gz | tar xf -
+$ cd mikode-1.1.0
+$ ./configure
+$ make all check
+$ sudo make install
+```
 
 Currently, Mikode has been tested on Ubuntu and Raspbian Linux. It should run on any Debian based Linux distro.
 
