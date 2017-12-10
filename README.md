@@ -30,15 +30,12 @@ You can build mikode in one of two ways.
 
 If you have autotools, you can generate the configure script
 
-`autoreconf -i`
-
-Then, in the mikode directory
-
-`./configure`
-
-`make all check`
-
-`sudo make install`
+```
+$ autoreconf -i
+$ ./configure
+$ make all check
+$ sudo make install
+```
 
 If you *do not* have autotools, you'll need to download the source and build it that way
 
