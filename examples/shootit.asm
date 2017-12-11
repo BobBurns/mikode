@@ -183,11 +183,9 @@ updfire:
 	Call		drawb
 	LoadDirect	temp,bulxy	
 	LoadDirect	tmp2,bulxy+1
-	Break
 	SubtractImm	temp,0x80
 	SubtractImmC	tmp2,0
 	CompareImm	tmp2,0xbf
-	Break
 	BranchNotEqu	norb
 	Jump		resetb
 norb:
@@ -203,7 +201,6 @@ resetb:
 	LoadDirect	tmp2,gunxy+1
 	SubtractImm	temp,0x80
 	SubtractImmC	tmp2,0x00
-	Break
 	StoreDirect	bulxy,temp
 	StoreDirect	bulxy+1,tmp2
 	Return

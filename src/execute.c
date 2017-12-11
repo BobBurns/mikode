@@ -698,7 +698,7 @@ sbci (uint16_t op, run_state * state)
   uint16_t c, result, val;
   c = state->sreg & C;
   d = (op & 0x00f0) >> 4;
-  val = (op & 0x000f) | ((op & 0x00c0) >> 2);
+  val = (op & 0x000f) | ((op & 0x0f00) >> 4);
   result = state->reg[d] - val - c;
   check_subf (result, state->reg[d], (uint8_t) val, state);
   state->reg[d] = (uint8_t) result;
@@ -872,7 +872,7 @@ subi (uint16_t op, run_state * state)
   int d;
   uint16_t result, val;
   d = (op & 0x00f0) >> 4;
-  val = (op & 0x000f) | ((op & 0x00c0) >> 2);
+  val = (op & 0x000f) | ((op & 0x0f00) >> 4);
   result = state->reg[d] - val;
   check_subf (result, state->reg[d], (uint8_t) val, state);
   state->reg[d] = (uint8_t) result;
