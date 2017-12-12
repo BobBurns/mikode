@@ -2,7 +2,7 @@
 ; shoot the apple to make a led blink
 ; miss and gave over
 ;
-; gpio out on gpio 26
+; gpio out on gpio 21
 ;
 ; compile: mikode shootit.asm
 ; execute: mikode -r shootit  ## or if using with gpio mikode -rg shootit
@@ -241,6 +241,7 @@ golp:
 	Call		swhlp		; delay after each letter
 	Decrement	r0
 	BranchNotEqu	golp
+	Break
 blink:
 	LoadImm		r0,5
 bloop:
