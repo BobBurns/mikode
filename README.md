@@ -148,9 +148,9 @@ For a more complex example see snake.asm
 
 0xe000  Load from this address to get key input
 
-        This will return ascii coded byte. Also,
-	special keys: left arrow (4), right arrow (5)
-	              up arrow (3), down arrow (2)
+This will return ascii coded byte. Also,
+special keys: left arrow (4), right arrow (5)
+up arrow (3), down arrow (2)
 
 
 **GPIO**
