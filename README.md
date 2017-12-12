@@ -50,6 +50,8 @@ $ sudo make install
 
 Currently, Mikode has been tested on Ubuntu and Raspbian Linux. It should run on any Debian based Linux distro.
 
+Update: initial tests on PocketChip are good.  I need to map GPIO.
+
 ## Usage
 
 `mikode [-rg] [-s] [--run] [--gpio] [--sleep=TIME] file`
@@ -145,6 +147,11 @@ For a more complex example see snake.asm
 **Key in**
 
 0xe000  Load from this address to get key input
+
+        This will return ascii coded byte. Also,
+	special keys: left arrow (4), right arrow (5)
+	              up arrow (3), down arrow (2)
+
 
 **GPIO**
 

@@ -1,4 +1,11 @@
 ; new demo program
+; shoot the apple to make a led blink
+; miss and gave over
+;
+; gpio out on gpio 26
+;
+; compile: mikode shootit.asm
+; execute: mikode -r shootit  ## or if using with gpio mikode -rg shootit
 ;
 ;
 .def yH = r15
@@ -12,11 +19,6 @@
 ; 
 ; Screen 0x40 X 0x12 0xc000
 ;
-; Addresses
-; direction 	0x102
-; lenght 	0x103
-; head 		0x110
-; body 		0x112
 	Jump 		start
 ;simulate 0 page
 .org 0x100
@@ -30,6 +32,8 @@ noshp:
 	.db "     "
 appos:
 	.db 0,0
+gotext:
+	.db 18,"G a m e  O v e r !"
 .org 0x200
 start:
 	Call		inits
@@ -40,6 +44,10 @@ start:
 inits:
 ;delay time
 	LoadImm		firer,0	  ; fire off
+; init gpio
+	LoadImm		temp,0x80
+	StoreDirect	0xe101,temp	; set direction out on gpio21
+;
 	LoadImm		xL,low(gunxy)
 	LoadImm		xH,high(gunxy)
 	LoadImm		temp,0x20 ;start position low
@@ -89,7 +97,7 @@ genapppos:
 	LoadImm		xL,0x04
 	LoadImm		xH,0xe0 ; 0xe004 rand number	
 	LoadIndX	temp,X+
-	AndImm		temp,0xbf
+	AndImm		temp,0xbc
 	StoreDirect	appos,temp
 	LoadIndX	temp,X
 	AndImm		temp,0x07
@@ -161,6 +169,8 @@ shoot:
 	Call		resetb
 	LoadImm		firer,1
 shdone:
+	LoadImm		temp,0
+	StoreDirect	0xe000,temp
 	Return
 checkcoll:
 	LoadDirect	temp,bulxy
@@ -187,7 +197,7 @@ updfire:
 	SubtractImmC	tmp2,0
 	CompareImm	tmp2,0xbf
 	BranchNotEqu	norb
-	Jump		resetb
+	Jump		gameover
 norb:
 	StoreDirect	bulxy,temp
 	StoreDirect	bulxy+1,tmp2
@@ -206,7 +216,11 @@ resetb:
 	Return
 collision:
 ; do cool stuff
+	Call		blink
+	LoadImm		temp,0
+	Call		drawb		; erase bullet
 	Call		genapppos
+	Call		resetb
 	Return
 spinwheels:
 	LoadImm		count,0x10
@@ -215,4 +229,31 @@ swhlp:
 	BranchNotEqu	swhlp
 	Return
 gameover:
-	Break
+	LoadImm		xL,low(gotext)
+	LoadImm		xH,high(gotext)
+	LoadImm		yL,0x1a
+	LoadImm		yH,0xc5
+	LoadIndX	r0,X+		; first val count
+golp:
+	LoadIndX	temp,X+
+	StoreIndY	Y+,temp
+	LoadImm		count,0x80
+	Call		swhlp		; delay after each letter
+	Decrement	r0
+	BranchNotEqu	golp
+blink:
+	LoadImm		r0,5
+bloop:
+	LoadImm		temp,0x80
+	StoreDirect	0xe100,temp	; set pin high
+	Call		spinwheels
+	LoadImm		temp,0x00
+	StoreDirect	0xe100,r9	; set pin low
+	Call		spinwheels
+	Decrement	r0
+	BranchNotEqu	bloop
+	Return
+	
+endlp:
+	NOP
+	Jump		endlp

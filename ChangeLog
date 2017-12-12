@@ -1,4 +1,9 @@
 2017-12-11 Bob Burns <reburns@protonmail.com>
+*  revision 1.1.1 done. new demo to play with
+examples/shootit where you blink a led after
+shooting an apple. dumb but fun
+
+2017-12-11 Bob Burns <reburns@protonmail.com>
 
 *  major bug in execute.c subi() value mask was
 wrong 0x00c0 not 0x0f00 like ldi. Pushing the fix

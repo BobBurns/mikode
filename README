@@ -74,6 +74,9 @@ Screen Rom
 
 Key in
 0xe000  Load from this address to get key input
+        This will return ascii coded byte. Also,
+	special keys: left arrow (4), right arrow (5)
+	              up arrow (3), down arrow (2)
 
 GPIO
 Requires root. Works with the Raspberry Pi A+,B+,2B,3B
@@ -127,6 +130,13 @@ Implement address space that interfaces with Raspberry Pi GPIO
 Tarball available at
 
 https://people.ucsc.edu/~reburns/downloads
+
+-----
+
+Caveates
+
+** There must be no space between .db values. example:
+   .db 0,0   not .db 0, 0
 
 Licensing
 

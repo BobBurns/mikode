@@ -1,5 +1,9 @@
 Mikode NEWS - User visible changes.
 
+** New release 1.1.1 with demo program
+   examples/shootit.asm.  fixed a bug
+   SubtractImm bug.
+
 ** New test release 1.1.0 
    GPIO output working with blink.asm 
 
