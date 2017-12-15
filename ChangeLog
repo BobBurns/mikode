@@ -2,6 +2,7 @@
 ** adding stepper. changes in display.c run.c
 runheader.h. User can press F5 and the execution 
 halts. F5 again will step. any key or F4 to continue.
+Going to push 1.1.2
 
 2017-12-11 Bob Burns <reburns@protonmail.com>
 *  revision 1.1.1 done. new demo to play with

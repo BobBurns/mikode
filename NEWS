@@ -1,5 +1,9 @@
 Mikode NEWS - User visible changes.
 
+** release 1.1.2 adding stepper by pressing
+F5 to step through code or F4 or alnum to 
+continue
+
 ** New release 1.1.1 with demo program
    examples/shootit.asm.  fixed a bug
    SubtractImm bug.
