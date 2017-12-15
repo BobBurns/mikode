@@ -213,6 +213,8 @@ F3 - break (quit)
 
 F4 - stop/start execution
 
+F5 - step
+
 
 ------------------------------------------------
 

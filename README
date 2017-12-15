@@ -120,6 +120,7 @@ F1 - toggle display registers
 F2 - clear display registers
 F3 - break (quit)
 F4 - stop/start execution
+F5 - step
 
 -----
 
