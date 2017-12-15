@@ -43,6 +43,7 @@ run (uint8_t ** prog, int usage_flag)
   main_rom.screen = newwin (SCR_MAXY, SCR_MAXX, 0, 0);
   main_rom.text = newwin (5, SCR_MAXX, SCR_MAXY + 1, 0);
   main_rom.old_win = malloc (SCR_MAXX * SCR_MAXY);
+  main_rom.step = 0;
 
 
   ret = execute (&state, prog, &main_rom);

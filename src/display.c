@@ -60,6 +60,10 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
       getch ();
       nodelay (stdscr, TRUE);
     }
+  else if (ch == KEY_F (5))
+    {
+      w->step = 1;
+    }
   else if (key <= (uint8_t) 0x7f)
     {
       /* store char */
@@ -84,7 +88,26 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
       mvwaddstr (w->text, 1, 0, reg_str);
       free (reg_str);
       wrefresh (w->text);
+     
 
+    }
+  /* stepper */
+  if (w->step)
+    {
+      while (1)
+	{
+	  ch = getch ();
+	  if (ch == KEY_F (5))
+	    {
+	      w->step = 1;
+	      break;
+	    }
+	  else if ((ch > 31 && ch < 128) || ch == KEY_F (4))
+	    {
+	      w->step = 0;
+	      break;
+	    }
+	}
     }
   /* generate random number at 0xe004 */
   srand (time (NULL));

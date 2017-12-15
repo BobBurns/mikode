@@ -53,6 +53,7 @@ typedef struct{
 	uint8_t	*old_win;
 	int	gpio_rom;
 	uint8_t *old_rom;
+	int 	step;
 }_rom;
 
 int sleep_v;
