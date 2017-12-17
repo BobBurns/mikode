@@ -111,6 +111,12 @@ main (int argc, char **argv)
       exit (-1);
     }
 
+  if (strlen (argv[optind]) > 255)
+    {
+      fprintf (stderr, "file name too long!\n");
+      exit (-1);
+    }
+
   filename = strndup (argv[optind], strlen (argv[optind]));
 
   if (run)

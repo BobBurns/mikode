@@ -4,6 +4,10 @@
   #include <config.h>
 #endif
 
+#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
+#include "gheader.h"
+#endif
+
 int
 run (uint8_t ** prog, int usage_flag)
 {
@@ -11,7 +15,7 @@ run (uint8_t ** prog, int usage_flag)
   _rom main_rom;
   run_state state = { 0 };
   /* set up gpio */
-#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
   if (usage_flag == 3)
     {
       if (getuid() != 0)
@@ -24,6 +28,7 @@ run (uint8_t ** prog, int usage_flag)
       ret = gpio_init();
       if (ret == -1)
         { 
+	  fprintf(stderr, "cannot init gpio!\n");
           free(main_rom.old_rom);
           return ret;
         }
@@ -52,7 +57,7 @@ run (uint8_t ** prog, int usage_flag)
   delwin (main_rom.text);
   endwin ();
   free (main_rom.old_win);
-#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
   if (main_rom.gpio_rom == 1)
     {
       free (main_rom.old_rom);

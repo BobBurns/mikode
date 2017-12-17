@@ -69,8 +69,3 @@ int push_val(uint8_t, run_state *, uint8_t **);
 int inc_reg(uint8_t rg, run_state *);
 int dec_reg(uint8_t rg, run_state *);
 int run_io(uint16_t, run_state *, uint8_t **, _rom *);
-int gpio_init();
-int gpio_close();
-int gpio_direction(int, int);
-uint8_t gpio_read();
-int gpio_write(int, int);

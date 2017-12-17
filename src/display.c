@@ -5,6 +5,10 @@
   #include <config.h>
 #endif
 
+#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
+#include "gheader.h"
+#endif
+
 int show_reg = 0;
 int
 run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
@@ -118,7 +122,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
   /* gpio */
 
 
-#ifdef HAVE__OPT_VC_INCLUDE_BCM_HOST_H
+#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
   int ret;
   if (w->gpio_rom == 1)
     {

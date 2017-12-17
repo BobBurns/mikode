@@ -1,22 +1,64 @@
+/* get_chip_pins() adapted from 
+ *
+ * https://github.com/Groguard/CHIP_IO_C/blob/master/source/common.c
+ *
+ * This file incorporates work covered by the following copyright and
+ * permission notice, all modified code adopts the original license:
+ *
+ * Copyright (c) 2013 Ben Croston
+ * Copyright (c) 2016 Robert Wolterman
+ * Copyright (c) 2013 Adafruit
+ *
+*/
 #include "runheader.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <dirent.h>
+
+#define MAX_BUFFER 4096
+#define CHIP_GPIO_PATH "/sys/class/gpio" 
+#define CHIP_EXPANDER "pcf8574a\n"
+
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#endif
 
 /* from https://elinux.org/RPi_GPIO_Code_Samples#Direct_register_access
  * Guillermo A. Amaral B. <g@maral.me>
  */
 
 
-static int pin_map[8] = { 6, 13, 19, 26, 12, 16, 20, 21 };
+static int pin_map[8];
 int gpio_close();
+int get_chip_pins(int*);
+int get_pi_pins(int*);
 
 int
 gpio_init()
 {
   char buffer[3];
   ssize_t bytes_written;
-  int fd, i;
+  int fd, i, err;
+  int *p = pin_map;
+
+  /* handle gpio mapping on chip or pi */
+  if (HAVE__NTC_MODEL)
+    {
+      err = get_chip_pins(p);
+      fprintf(stderr, "error: get_chip_pins()\n");
+      return err;
+    } 
+  else if (HAVE__BCM_HOST)
+    { 
+      err = get_pi_pins(p);
+    }
+  else
+/* will only happen if no config.h */
+    { 
+      return -1;
+    }
+
   /* TODO make sure gpio is unexported first */
 
   /* open each indidividually */
@@ -156,4 +198,96 @@ gpio_write(int pin, int value)
 		 
     close(fd);
     return(0);
+}
+
+int 
+get_chip_pins(int *pins)
+{
+  int base = 0, i;
+  char label_file[MAX_BUFFER] = {0};
+  FILE *label_fp;
+  char base_file[MAX_BUFFER] = {0};
+  FILE *base_fp;
+  DIR *dir;
+  struct dirent *ent;
+  struct stat sbuf;
+
+  if ((dir = opendir (CHIP_GPIO_PATH)) == NULL)
+    return -2;
+
+  /* iterante through /sys/class/gpio directories
+   * looking for expander value to find base number
+   * see
+   * https://docs.getchip.com/chip.html#kernel-4-3-vs-4-4-gpio-how-to-tell-the-difference
+   */
+  while ((ent = readdir (dir)) != NULL)
+    {
+      lstat (ent->d_name, &sbuf);
+        /* if (S_ISDIR (sbuf.st_mode)) */
+	/* I'm having issues with S_ISDIR returning true for file */
+      if (ent->d_type == DT_DIR)
+	{
+	  if (!strncmp (".", ent->d_name, 1) || !strncmp ("..", ent->d_name, 2))
+	    continue;
+
+	  snprintf(label_file, sizeof (label_file), "%s/%s/label", CHIP_GPIO_PATH, 
+		   ent->d_name);
+
+	  if ((label_fp = fopen (label_file, "r")) == NULL)
+	    {
+	      perror ("cannot open CHIP label file!\n");
+	      closedir (dir);
+	      return -3;
+	    }
+	  char input_line[80] = {0};
+	  char *s = fgets (input_line, sizeof (input_line), label_fp);
+	  fclose (label_fp);
+
+	  if (!strncmp (input_line, CHIP_EXPANDER, strlen (CHIP_EXPANDER)))
+	    {
+	      snprintf (base_file, sizeof (base_file), "%s/%s/base", CHIP_GPIO_PATH,
+			ent->d_name);
+
+	      if ((base_fp = fopen (label_file, "r")) == NULL)
+		{
+		  perror ("cannot open CHIP base file!\n");
+		  closedir (dir);
+		  return -3;
+		}
+	      s = fgets (input_line, sizeof (input_line), base_fp);
+	      fclose (base_fp);
+
+	      if (s == NULL)
+		{
+		  fprintf(stderr, "no CHIP base found!\n");
+		  closedir (dir);
+		  return -3;
+		}
+	      /* check for empty value */
+	      char *endptr;
+	      base = (int)strtol (input_line, &endptr, 10);
+	      if (endptr == input_line)
+		{
+		  fprintf(stderr, "no CHIP base value. aborting...\n");
+		  closedir (dir);
+		  return -4;
+		}
+	      
+	    }
+	}
+    }
+
+  for (i = 0; i < 8; i++)
+    {
+      pins[i] = i + base;
+    }
+  return 0;
+}
+      
+int
+get_pi_pins(int *pins)
+{
+  *pins++ = 6; *pins++ = 13; *pins++ = 19; *pins++ = 26;
+  *pins++ = 12, *pins++ = 16, *pins++ = 20; *pins++ = 21;
+  return 0;
 }
