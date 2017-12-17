@@ -59,7 +59,7 @@ gpio_init()
   else
 /* will only happen if no config.h */
     {  
-      fprintf("no config file!\n");
+      fprintf(stderr, "no config file!\n");
       return -1;
     }
 
