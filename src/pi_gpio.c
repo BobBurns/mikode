@@ -46,16 +46,20 @@ gpio_init()
   if (HAVE__NTC_MODEL)
     {
       err = get_chip_pins(p);
-      fprintf(stderr, "error: get_chip_pins()\n");
-      return err;
-    } 
+      if (err < 0)
+	{
+          fprintf(stderr, "error: get_chip_pins()\n");
+          return err;
+        } 
+    }
   else if (HAVE__BCM_HOST)
     { 
-      err = get_pi_pins(p);
+      get_pi_pins(p);
     }
   else
 /* will only happen if no config.h */
-    { 
+    {  
+      fprintf("no config file!\n");
       return -1;
     }
 
