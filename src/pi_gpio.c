@@ -224,12 +224,13 @@ get_chip_pins(int *pins)
    * see
    * https://docs.getchip.com/chip.html#kernel-4-3-vs-4-4-gpio-how-to-tell-the-difference
    */
+  /* TODO add rule in autoconf to test DT_SLNK */
   while ((ent = readdir (dir)) != NULL)
     {
       lstat (ent->d_name, &sbuf);
         /* if (S_ISDIR (sbuf.st_mode)) */
 	/* I'm having issues with S_ISDIR returning true for file */
-      if (ent->d_type == DT_DIR)
+      if (ent->d_type == DT_LNK)
 	{
 	  if (!strncmp (".", ent->d_name, 1) || !strncmp ("..", ent->d_name, 2))
 	    continue;
@@ -252,7 +253,7 @@ get_chip_pins(int *pins)
 	      snprintf (base_file, sizeof (base_file), "%s/%s/base", CHIP_GPIO_PATH,
 			ent->d_name);
 
-	      if ((base_fp = fopen (label_file, "r")) == NULL)
+	      if ((base_fp = fopen (base_file, "r")) == NULL)
 		{
 		  perror ("cannot open CHIP base file!\n");
 		  closedir (dir);
