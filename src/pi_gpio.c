@@ -19,6 +19,8 @@
 #define MAX_BUFFER 4096
 #define CHIP_GPIO_PATH "/sys/class/gpio" 
 #define CHIP_EXPANDER "pcf8574a\n"
+#define VALUE_MAX 35
+#define DIRECTION_MAX 40
 
 #ifdef HAVE_CONFIG_H
   #include <config.h>
@@ -37,13 +39,13 @@ int get_pi_pins(int*);
 int
 gpio_init()
 {
-  char buffer[3];
+  char buffer[5];
   ssize_t bytes_written;
   int fd, i, err;
   int *p = pin_map;
 
   /* handle gpio mapping on chip or pi */
-  if (HAVE__NTC_MODEL)
+  if (HAVE__NTC_MODEL == 1)
     {
       err = get_chip_pins(p);
       if (err < 0)
@@ -52,14 +54,15 @@ gpio_init()
           return err;
         } 
     }
-  else if (HAVE__BCM_HOST)
+  else if (HAVE__BCM_HOST == 1 && HAVE__DT_LNK)
     { 
       get_pi_pins(p);
     }
   else
 /* will only happen if no config.h */
     {  
-      fprintf(stderr, "no config file!\n");
+      printf("Sorry, cannot run with gpio. Could be there isn't a config.h"
+	     " file or no directory types in dirent.h\n");
       return -1;
     }
 
@@ -75,7 +78,8 @@ gpio_init()
 	  fprintf(stderr, "Failed to open export for writing!\n");
 	  return -1;
 	}
-      bytes_written = snprintf(buffer, 3, "%d", pin_map[i]);
+      /* changing buffer to 5 to handle CHIP gpio */
+      bytes_written = snprintf(buffer, 5, "%d", pin_map[i]);
       if ((write(fd, buffer, bytes_written)) == -1) 
 	{
 	  close(fd);
@@ -92,7 +96,7 @@ gpio_init()
 int
 gpio_close()
 {
-  char buffer[3];
+  char buffer[5];
   ssize_t bytes_written;
   int fd, i;
 
@@ -106,7 +110,7 @@ gpio_close()
 	  fprintf(stderr, "Failed to open export for writing!\n");
 	  return -1;
 	}
-      bytes_written = snprintf(buffer, 3, "%d", pin_map[i]);
+      bytes_written = snprintf(buffer, 5, "%d", pin_map[i]);
       if ((write(fd, buffer, bytes_written)) == -1)
 	{
 	  close(fd);
@@ -122,7 +126,6 @@ gpio_direction(int pin, int dir)
 {
   static const char s_directions_str[]  = "in\0out";
    
-#define DIRECTION_MAX 35
   char path[DIRECTION_MAX];
   int fd;
        
@@ -147,7 +150,6 @@ gpio_direction(int pin, int dir)
 uint8_t
 gpio_read()
 {
-#define VALUE_MAX 30
   char path[VALUE_MAX];
   char value_str[3];
   int fd, i;
@@ -232,7 +234,7 @@ get_chip_pins(int *pins)
 	/* I'm having issues with S_ISDIR returning true for file */
       if (ent->d_type == DT_LNK)
 	{
-	  if (!strncmp (".", ent->d_name, 1) || !strncmp ("..", ent->d_name, 2))
+	  if (!strcmp (".", ent->d_name) || !strcmp ("..", ent->d_name))
 	    continue;
 
 	  snprintf(label_file, sizeof (label_file), "%s/%s/label", CHIP_GPIO_PATH, 
@@ -277,6 +279,8 @@ get_chip_pins(int *pins)
 		  closedir (dir);
 		  return -4;
 		}
+	      /* done */
+	      break;
 	      
 	    }
 	}

@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define to 1 if you have the <dirent.h> header file. */
+#undef HAVE_DIRENT_H
+
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
 
@@ -64,6 +67,9 @@
 
 /* "NO pi spcecific header file" */
 #undef HAVE__BCM_HOST
+
+/* "does NOT have dir types to check CHIP gpio" */
+#undef HAVE__DT_LNK
 
 /* "NO chip name found" */
 #undef HAVE__NTC_MODEL
