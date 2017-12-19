@@ -1,3 +1,10 @@
+2017-12-18 Bob Burns <reburns@protonmail.com>
+** finally got CHIP gpio support working. Had 
+some trouble with the suggested files common.c
+I'm putting up 1.2.0 as a release. For now, I'm
+gonna leave it up in beta:
+people.ucsc.edu/~reburns/beta/mikode-1.2.0.tar.gz
+
 2017-12-14 Bob Burns <reburns@protonmail.com>
 ** adding stepper. changes in display.c run.c
 runheader.h. User can press F5 and the execution 

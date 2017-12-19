@@ -228,3 +228,7 @@ Instruction Set at
 Tarball available at
 
 [reburns downloads](https://people.ucsc.edu/~reburns/downloads)
+
+CHIP support in beta
+
+[reburns beta](https://people.ucsc.edu/~reburns/beta)
