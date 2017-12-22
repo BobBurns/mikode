@@ -10,6 +10,13 @@
 #include "instructions.h"
 #define _GNU_SOURCE
 
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#else
+  #define HAVE__BCM_HOST 0
+  #define HAVE__NTC_MODEL 0
+#endif
+
 #define DEBUG 0
 
 #define DRD_MSK(x) (uint16_t)(x & 0xff00) /* direct dual */
@@ -54,6 +61,8 @@ typedef struct{
 	int	gpio_rom;
 	uint8_t *old_rom;
 	int 	step;
+	int 	maxx;
+	int 	maxy;
 }_rom;
 
 int sleep_v;

@@ -1,11 +1,8 @@
 #include "runheader.h"
 #include <time.h>		/* for rand seed */
 
-#ifdef HAVE_CONFIG_H
-  #include <config.h>
-#endif
 
-#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
+#if ( HAVE__BCM_HOST ) || ( HAVE__NTC_MODEL )
 #include "gheader.h"
 #endif
 
@@ -17,7 +14,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
   int i, ch, r;
   uint8_t key;
   char *reg_str;
-  for (i = 0; i < (SCR_MAXX * SCR_MAXY); i++)
+  for (i = 0; i < (w->maxx * w->maxy); i++)
     {
       /* only put if there is a change */
       if ((*prog)[i + SCR_OFF] != w->old_win[i])
@@ -25,7 +22,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
 	  w->old_win[i] = (*prog)[i + SCR_OFF];
 	  if ((*prog)[i + SCR_OFF] > 31)
 	    {
-	      mvwaddch (w->screen, i / SCR_MAXX, i % SCR_MAXX,
+	      mvwaddch (w->screen, i / w->maxx, i % w->maxx,
 			(char) (*prog)[i + SCR_OFF]);
 	    }
 	}

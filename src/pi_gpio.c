@@ -22,19 +22,17 @@
 #define VALUE_MAX 35
 #define DIRECTION_MAX 40
 
-#ifdef HAVE_CONFIG_H
-  #include <config.h>
-#endif
-
 /* from https://elinux.org/RPi_GPIO_Code_Samples#Direct_register_access
  * Guillermo A. Amaral B. <g@maral.me>
  */
 
 
 static int pin_map[8];
-int gpio_close();
+static int gpio_fds[8];
+int gpio_unexp();
 int get_chip_pins(int*);
 int get_pi_pins(int*);
+int gpio_openfds(int *);
 
 int
 gpio_init()
@@ -43,6 +41,7 @@ gpio_init()
   ssize_t bytes_written;
   int fd, i, err;
   int *p = pin_map;
+  int *fdp = gpio_fds;
 
   /* handle gpio mapping on chip or pi */
   if (HAVE__NTC_MODEL == 1)
@@ -89,12 +88,19 @@ gpio_init()
 	
       close(fd);
     }
+  err = gpio_openfds(fdp);
+  if (err < 0)
+    {
+      fprintf(stderr, "error gpio_openfds()\n");
+      return -1;
+    }
+
     return 0;
 }
 
 
 int
-gpio_close()
+gpio_unexp()
 {
   char buffer[5];
   ssize_t bytes_written;
@@ -150,30 +156,18 @@ gpio_direction(int pin, int dir)
 uint8_t
 gpio_read()
 {
-  char path[VALUE_MAX];
   char value_str[3];
-  int fd, i;
+  int i;
   uint8_t result, val = 0;
 	 
   for (i = 0; i < 8; i++)
     {
-
-      snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin_map[i]);
-      fd = open(path, O_RDONLY);
-      if (-1 == fd)
-	{
-	  fprintf(stderr, "Failed to open gpio value for reading!\n");
-	  return(-1);
-	}
-	       
-	if (-1 == read(fd, value_str, 3))
+	if (-1 == read(gpio_fds[i], value_str, 3))
 	  {
 	    fprintf(stderr, "Failed to read value!\n");
 	    return(-1);
 	  }
 		 
-	  close(fd);
-		   
 	  result = (uint8_t)atoi(value_str);
 	  val |= (result << i);
     }
@@ -184,25 +178,13 @@ int
 gpio_write(int pin, int value)
 {
   static const char s_values_str[] = "01";
-     
-  char path[VALUE_MAX];
-  int fd;
 	 
-  snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin_map[pin]);
-  fd = open(path, O_WRONLY);
-  if (-1 == fd) 
-    {
-      fprintf(stderr, "Failed to open gpio value for writing!\n");
-      return(-1);
-    }
-	       
-    if (1 != write(fd, &s_values_str[LOW == value ? 0 : 1], 1)) 
+    if (1 != write(gpio_fds[pin], &s_values_str[LOW == value ? 0 : 1], 1)) 
       {
 	fprintf(stderr, "Failed to write value!\n");
 	return(-1);
       }
 		 
-    close(fd);
     return(0);
 }
 
@@ -298,5 +280,37 @@ get_pi_pins(int *pins)
 {
   *pins++ = 6; *pins++ = 13; *pins++ = 19; *pins++ = 26;
   *pins++ = 12, *pins++ = 16, *pins++ = 20; *pins++ = 21;
+  return 0;
+}
+
+int
+gpio_openfds(int *gpio_fds)
+{
+  char path[VALUE_MAX];
+  int i;
+	 
+  for (i = 0; i < 8; i++)
+    {
+
+      snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin_map[i]);
+      gpio_fds[i] = open(path, O_RDWR);
+      if (-1 == gpio_fds[i])
+	{
+	  fprintf(stderr, "Failed to open gpio value for read write ops!\n");
+	  return(-1);
+	}
+	       
+    }
+  return 0;
+}
+
+int
+gpio_closefds()
+{
+  int i;
+  for (i = 0; i < 8; i++)
+    {
+      close(gpio_fds[i]);
+    }
   return 0;
 }

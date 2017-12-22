@@ -1,3 +1,9 @@
+2017-12-21 Bob Burns <reburns@protonmail.com>
+*** 1.2.1 attempting to speed up the execution on pi
+and chip by opening up all fds in gpio_init()
+handling chip screen size at maxy=19 to run 
+example code. 
+
 2017-12-18 Bob Burns <reburns@protonmail.com>
 ** finally got CHIP gpio support working. Had 
 some trouble with the suggested files common.c

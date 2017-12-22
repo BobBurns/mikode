@@ -1,10 +1,6 @@
 #include "runheader.h"
 
-#ifdef HAVE_CONFIG_H
-  #include <config.h>
-#endif
-
-#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
+#if ( HAVE__BCM_HOST ) || ( HAVE__NTC_MODEL )
 #include "gheader.h"
 #endif
 
@@ -14,8 +10,18 @@ run (uint8_t ** prog, int usage_flag)
   int ret;
   _rom main_rom;
   run_state state = { 0 };
+  main_rom.maxx = SCR_MAXX;
+  main_rom.maxy = SCR_MAXY;
+
   /* set up gpio */
-#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
+#if ( HAVE__BCM_HOST ) || ( HAVE__NTC_MODEL )
+  /* handle chip screen */
+  if (HAVE__NTC_MODEL == 1 )
+    {
+      main_rom.maxx = SCR_MAXX;
+      /* this should change */
+      main_rom.maxy = 0x13;
+    }
   if (usage_flag == 3)
     {
       if (getuid() != 0)
@@ -45,9 +51,9 @@ run (uint8_t ** prog, int usage_flag)
   keypad (stdscr, TRUE);
   noecho ();
   curs_set (0);
-  main_rom.screen = newwin (SCR_MAXY, SCR_MAXX, 0, 0);
-  main_rom.text = newwin (5, SCR_MAXX, SCR_MAXY + 1, 0);
-  main_rom.old_win = malloc (SCR_MAXX * SCR_MAXY);
+  main_rom.screen = newwin (main_rom.maxy, main_rom.maxx, 0, 0);
+  main_rom.text = newwin (5, main_rom.maxx, main_rom.maxy + 1, 0);
+  main_rom.old_win = malloc (main_rom.maxx * main_rom.maxy);
   main_rom.step = 0;
 
 
@@ -57,13 +63,17 @@ run (uint8_t ** prog, int usage_flag)
   delwin (main_rom.text);
   endwin ();
   free (main_rom.old_win);
-#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
+#if ( HAVE__BCM_HOST ) || ( HAVE__NTC_MODEL )
   if (main_rom.gpio_rom == 1)
     {
       free (main_rom.old_rom);
-      if ((gpio_close()) == -1)
+      if ((gpio_unexp()) == -1)
 	{ 
 	  printf("could not unexport gpio\n");
+	}
+      if ((gpio_closefds()) == -1)
+        {
+	  printf("could not close gpio fds\n");
 	}
     }
 #endif
