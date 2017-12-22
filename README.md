@@ -40,7 +40,8 @@ $ sudo make install
 If you *do not* have autotools, you'll need to download the source and build it that way
 
 ```
-$ wget http://people.ucsc.edu/~reburns/downloads/mikode-1.2.1.tar.gz
+$ wget
+https://github.com/BobBurns/mikode/releases/download/v1.2.1/mikode-1.2.1.tar.gz
 $ gzip -cd mikode-1.2.1.tar.gz | tar xf -
 $ cd mikode-1.2.1
 $ ./configure
