@@ -41,7 +41,7 @@ If you *do not* have autotools, you'll need to download the source and build it 
 
 ```
 $ wget
-https://github.com/BobBurns/mikode/releases/download/v1.2.1/mikode-1.2.1.tar.gz
+https://github.com/BobBurns/mikode/releases/download/v1.2.2/mikode-1.2.2.tar.gz
 $ gzip -cd mikode-1.2.1.tar.gz | tar xf -
 $ cd mikode-1.2.1
 $ ./configure
