@@ -42,16 +42,15 @@ If you *do not* have autotools, you'll need to download the source and build it 
 ```
 $ wget
 https://github.com/BobBurns/mikode/releases/download/v1.2.2/mikode-1.2.2.tar.gz
-$ gzip -cd mikode-1.2.1.tar.gz | tar xf -
-$ cd mikode-1.2.1
+$ gzip -cd mikode-1.2.2.tar.gz | tar xf -
+$ cd mikode-1.2.2
 $ ./configure
 $ make all check
 $ sudo make install
 ```
 
-Currently, Mikode has been tested on Ubuntu and Raspbian Linux. It should run on any Debian based Linux distro.
+Currently, Mikode has been tested on Ubuntu and Raspbian Linux. It should run on any Debian based Linux distro. Now running on PocketChip.
 
-Update: initial tests on PocketChip are good.  I need to map GPIO.
 
 ## Usage
 
