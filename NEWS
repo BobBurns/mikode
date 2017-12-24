@@ -1,5 +1,9 @@
 Mikode NEWS - User visible changes.
 
+*** patching 1.2.2 I didn't quite catch
+    all of the define changes for HAVE__BCM_H
+    sorry if you couldn't compile 1.2.1 on Pi
+ 
 ** release 1.2.0 adds support for PocketCHIP
    GPIO. I'm going to leave this one in /beta 
    folder for now

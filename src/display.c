@@ -119,7 +119,7 @@ run_io (uint16_t op, run_state * state, uint8_t ** prog, _rom * w)
   /* gpio */
 
 
-#if ( HAVE__OPT_VC_INCLUDE_BCM_HOST_H ) || ( HAVE__NTC_MODEL )
+#if ( HAVE__BCM_HOST ) || ( HAVE__NTC_MODEL )
   int ret;
   if (w->gpio_rom == 1)
     {
